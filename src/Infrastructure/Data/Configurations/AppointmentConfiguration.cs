@@ -1,4 +1,5 @@
 ﻿using DentalApp.Domain.Entities;
+using DentalApp.Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -10,10 +11,13 @@ public class AppointmentConfiguration : IEntityTypeConfiguration<Appointment>
     {
         builder.HasKey(a => a.Id);
 
-        builder.HasOne(a => a.User)
+        builder.Property(a => a.UserId)
+               .IsRequired();
+
+        builder.HasOne<ApplicationUser>()
                .WithMany()
                .HasForeignKey(a => a.UserId)
-               .OnDelete(DeleteBehavior.Cascade);
+               .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(a => a.Doctor)
                .WithMany()

@@ -41,7 +41,9 @@ app.MapRazorPages();
 
 app.MapEndpoints();
 
-app.Map("/", () => Results.Redirect("/api"));
+app.MapFallbackToPage("/Index");
+
+//app.Map("/", () => Results.Redirect("/api"));
 
 app.Run();
 

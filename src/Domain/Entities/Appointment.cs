@@ -6,9 +6,9 @@ using DentalApp.Domain.Constants;
 namespace DentalApp.Domain.Entities;
 public class Appointment : BaseAuditableEntity
 {
+    public string? UserId { get; set; }
     [ForeignKey(nameof(User))]
-    public int UserId { get; set; }
-    public User? User { get; set; }
+    public ApplicationUser? User { get; set; }
 
     [ForeignKey(nameof(Doctor))]
     public int DoctorId { get; set; }

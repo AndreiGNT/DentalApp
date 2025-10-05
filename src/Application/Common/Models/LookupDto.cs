@@ -13,7 +13,6 @@ public class LookupDto
         public Mapping()
         {
             CreateMap<Appointment, LookupDto>();
-            CreateMap<User, LookupDto>();
         }
     }
 }

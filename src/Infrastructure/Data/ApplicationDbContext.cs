@@ -2,19 +2,19 @@
 using DentalApp.Application.Common.Interfaces;
 using DentalApp.Domain.Entities;
 using DentalApp.Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DentalApp.Infrastructure.Data;
 
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
+public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) 
     {
 
     }
 
-    public DbSet<User> AllUsers {  get; set; }
     public DbSet<Doctor> Doctors { get; set; }
     public DbSet<Procedure> Procedures { get; set; }
     public DbSet<DoctorProcedure> DoctorProcedures { get; set; }
@@ -25,39 +25,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
         base.OnModelCreating(builder);
 
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
-        // -----------------------------
-        // Seed Users
-        // -----------------------------
-        builder.Entity<User>().HasData(
-            new User
-            {
-                Id = 1,
-                FirstName = "Andrei",
-                LastName = "Girnet",
-                PhoneNumber = "+37378121254",
-                Email = "andrei.girnet@gmail.com.com",
-                PasswordHash = "hashedpassword", 
-                Role = "Admin",
-                IsConfirmed = true,
-                Created = DateTimeOffset.UtcNow,
-                CreatedBy = "System"
-            },
-
-            new User
-            {
-                Id = 2,
-                FirstName = "Ghenadie",
-                LastName = "Stoian",
-                PhoneNumber = "+37378121254",
-                Email = "ghenadie.stoian@gmaiil.com",
-                PasswordHash = "hashedpassword",
-                Role = "Client",
-                IsConfirmed = true,
-                Created = DateTimeOffset.UtcNow,
-                CreatedBy = "System"
-            }
-        );
 
         // -----------------------------
         // Seed Procedures
@@ -178,24 +145,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
 
             // Doctor Larisa Nastase and his procedures
             new DoctorProcedure { Id = 11, DoctorId = 5, ProcedureId = 5, Created = DateTimeOffset.UtcNow, CreatedBy = "System" }
-        );
-
-        // -----------------------------
-        // Seed Appointment
-        // -----------------------------
-        builder.Entity<Appointment>().HasData(
-            new Appointment
-            {
-                Id = 1,
-                UserId = 2,
-                DoctorId = 5,
-                ProcedureId = 5,
-                StartTime = new DateTime(2025, 10, 5, 9, 0, 0),
-                EndTime = new DateTime(2025, 10, 5, 11, 0, 0),
-                Status = "Pending",
-                Created = DateTimeOffset.UtcNow,
-                CreatedBy = "ghenadie.stoian@gmaiil.com"
-            }
         );
     }
 }

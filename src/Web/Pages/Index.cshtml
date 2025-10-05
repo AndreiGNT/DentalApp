@@ -1,0 +1,37 @@
+﻿@page
+@model DentalApp.Web.Pages.IndexModel
+@{
+    ViewData["Title"] = "DentalApp - Your Smile Matters";
+}
+
+<div class="hero">
+    <h1>Welcome to DentalApp 🦷</h1>
+    <p>Book appointments, manage your treatments, and keep your smile healthy with ease.</p>
+    <a href="/Appointments/Create" class="btn btn-primary mt-3">Book Appointment</a>
+</div>
+
+<div class="container mt-5">
+    <div class="row text-center">
+        <div class="col-md-4 mb-3">
+            <div class="card p-4">
+                <i class="bi bi-calendar2-check display-5 text-primary mb-3"></i>
+                <h5>Easy Scheduling</h5>
+                <p>Quickly find available slots and book with your favorite dentist.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card p-4">
+                <i class="bi bi-person-heart display-5 text-primary mb-3"></i>
+                <h5>Professional Doctors</h5>
+                <p>Our certified team ensures every treatment is handled with care.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card p-4">
+                <i class="bi bi-envelope-check display-5 text-primary mb-3"></i>
+                <h5>Appointment Reminders</h5>
+                <p>Receive notifications and confirmations directly by email.</p>
+            </div>
+        </div>
+    </div>
+</div>

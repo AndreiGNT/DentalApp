@@ -1,5 +1,6 @@
 ﻿using DentalApp.Application.Common.Interfaces;
 using DentalApp.Domain.Constants;
+using DentalApp.Domain.Entities;
 using DentalApp.Infrastructure.Data;
 using DentalApp.Infrastructure.Data.Interceptors;
 using DentalApp.Infrastructure.Identity;
@@ -28,7 +29,7 @@ public static class DependencyInjection
         });
 
 
-        builder.Services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+        builder.Services.AddScoped<IApplicationDbContext>(provider => (IApplicationDbContext)provider.GetRequiredService<ApplicationDbContext>());
 
         builder.Services.AddScoped<ApplicationDbContextInitialiser>();
 
