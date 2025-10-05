@@ -9,4 +9,6 @@ public class Doctor : BaseAuditableEntity
     public string FullName { get; set; } = string.Empty;
 
     public ICollection<DoctorProcedure> DoctorProcedures { get; set; } = new List<DoctorProcedure>();
+
+    public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
 }

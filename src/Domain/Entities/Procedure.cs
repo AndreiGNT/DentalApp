@@ -13,4 +13,6 @@ public class Procedure : BaseAuditableEntity
     public TimeSpan Duration { get; set; }
 
     public ICollection<DoctorProcedure> DoctorProcedures { get; set; } = new List<DoctorProcedure>();
+
+    public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
 }

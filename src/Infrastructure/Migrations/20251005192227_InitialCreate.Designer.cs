@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DentalApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251005173628_InitWithAppointmentsAndIdentity")]
-    partial class InitWithAppointmentsAndIdentity
+    [Migration("20251005192227_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,35 +66,15 @@ namespace DentalApp.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ProcedureId");
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("UserId1");
-
                     b.HasIndex("DoctorId", "StartTime");
 
                     b.ToTable("Appointments");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Created = new DateTimeOffset(new DateTime(2025, 10, 5, 17, 36, 27, 830, DateTimeKind.Unspecified).AddTicks(5256), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedBy = "ghenadie.stoian@gmaiil.com",
-                            DoctorId = 5,
-                            EndTime = new DateTime(2025, 10, 5, 11, 0, 0, 0, DateTimeKind.Unspecified),
-                            LastModified = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ProcedureId = 5,
-                            StartTime = new DateTime(2025, 10, 5, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = "Pending",
-                            UserId = "6b8d0e9a-ff20-4a6e-8bdf-71a34c69cb9a"
-                        });
                 });
 
             modelBuilder.Entity("DentalApp.Domain.Entities.Doctor", b =>
@@ -125,48 +105,6 @@ namespace DentalApp.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Doctors");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Created = new DateTimeOffset(new DateTime(2025, 10, 5, 17, 36, 27, 830, DateTimeKind.Unspecified).AddTicks(2307), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedBy = "System",
-                            FullName = "Dumitru Girnet",
-                            LastModified = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Created = new DateTimeOffset(new DateTime(2025, 10, 5, 17, 36, 27, 830, DateTimeKind.Unspecified).AddTicks(2310), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedBy = "System",
-                            FullName = "Dumitru Zaporojan",
-                            LastModified = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Created = new DateTimeOffset(new DateTime(2025, 10, 5, 17, 36, 27, 830, DateTimeKind.Unspecified).AddTicks(2322), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedBy = "System",
-                            FullName = "Lilian Bularu",
-                            LastModified = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Created = new DateTimeOffset(new DateTime(2025, 10, 5, 17, 36, 27, 830, DateTimeKind.Unspecified).AddTicks(2323), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedBy = "System",
-                            FullName = "Daniel Rotaru",
-                            LastModified = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Created = new DateTimeOffset(new DateTime(2025, 10, 5, 17, 36, 27, 830, DateTimeKind.Unspecified).AddTicks(2324), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedBy = "System",
-                            FullName = "Larisa Nastase",
-                            LastModified = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
-                        });
                 });
 
             modelBuilder.Entity("DentalApp.Domain.Entities.DoctorProcedure", b =>
@@ -202,107 +140,6 @@ namespace DentalApp.Infrastructure.Migrations
                     b.HasIndex("ProcedureId");
 
                     b.ToTable("DoctorProcedures");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Created = new DateTimeOffset(new DateTime(2025, 10, 5, 17, 36, 27, 830, DateTimeKind.Unspecified).AddTicks(3400), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedBy = "System",
-                            DoctorId = 1,
-                            LastModified = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ProcedureId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Created = new DateTimeOffset(new DateTime(2025, 10, 5, 17, 36, 27, 830, DateTimeKind.Unspecified).AddTicks(3404), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedBy = "System",
-                            DoctorId = 1,
-                            LastModified = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ProcedureId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Created = new DateTimeOffset(new DateTime(2025, 10, 5, 17, 36, 27, 830, DateTimeKind.Unspecified).AddTicks(3406), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedBy = "System",
-                            DoctorId = 1,
-                            LastModified = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ProcedureId = 4
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Created = new DateTimeOffset(new DateTime(2025, 10, 5, 17, 36, 27, 830, DateTimeKind.Unspecified).AddTicks(3407), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedBy = "System",
-                            DoctorId = 2,
-                            LastModified = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ProcedureId = 2
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Created = new DateTimeOffset(new DateTime(2025, 10, 5, 17, 36, 27, 830, DateTimeKind.Unspecified).AddTicks(3408), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedBy = "System",
-                            DoctorId = 2,
-                            LastModified = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ProcedureId = 3
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Created = new DateTimeOffset(new DateTime(2025, 10, 5, 17, 36, 27, 830, DateTimeKind.Unspecified).AddTicks(3409), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedBy = "System",
-                            DoctorId = 3,
-                            LastModified = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ProcedureId = 2
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Created = new DateTimeOffset(new DateTime(2025, 10, 5, 17, 36, 27, 830, DateTimeKind.Unspecified).AddTicks(3410), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedBy = "System",
-                            DoctorId = 3,
-                            LastModified = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ProcedureId = 3
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Created = new DateTimeOffset(new DateTime(2025, 10, 5, 17, 36, 27, 830, DateTimeKind.Unspecified).AddTicks(3411), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedBy = "System",
-                            DoctorId = 3,
-                            LastModified = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ProcedureId = 4
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Created = new DateTimeOffset(new DateTime(2025, 10, 5, 17, 36, 27, 830, DateTimeKind.Unspecified).AddTicks(3412), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedBy = "System",
-                            DoctorId = 4,
-                            LastModified = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ProcedureId = 2
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Created = new DateTimeOffset(new DateTime(2025, 10, 5, 17, 36, 27, 830, DateTimeKind.Unspecified).AddTicks(3413), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedBy = "System",
-                            DoctorId = 4,
-                            LastModified = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ProcedureId = 5
-                        },
-                        new
-                        {
-                            Id = 11,
-                            Created = new DateTimeOffset(new DateTime(2025, 10, 5, 17, 36, 27, 830, DateTimeKind.Unspecified).AddTicks(3414), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedBy = "System",
-                            DoctorId = 5,
-                            LastModified = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ProcedureId = 5
-                        });
                 });
 
             modelBuilder.Entity("DentalApp.Domain.Entities.Procedure", b =>
@@ -336,53 +173,6 @@ namespace DentalApp.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Procedures");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Created = new DateTimeOffset(new DateTime(2025, 10, 5, 17, 36, 27, 829, DateTimeKind.Unspecified).AddTicks(7429), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedBy = "System",
-                            Duration = new TimeSpan(0, 0, 30, 0, 0),
-                            LastModified = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ProcedureName = "Descaling and sanitization"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Created = new DateTimeOffset(new DateTime(2025, 10, 5, 17, 36, 27, 829, DateTimeKind.Unspecified).AddTicks(7767), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedBy = "System",
-                            Duration = new TimeSpan(0, 0, 45, 0, 0),
-                            LastModified = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ProcedureName = "Treatment of dental caries"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Created = new DateTimeOffset(new DateTime(2025, 10, 5, 17, 36, 27, 829, DateTimeKind.Unspecified).AddTicks(7768), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedBy = "System",
-                            Duration = new TimeSpan(0, 0, 45, 0, 0),
-                            LastModified = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ProcedureName = "Dental extractions"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Created = new DateTimeOffset(new DateTime(2025, 10, 5, 17, 36, 27, 829, DateTimeKind.Unspecified).AddTicks(7770), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedBy = "System",
-                            Duration = new TimeSpan(0, 1, 30, 0, 0),
-                            LastModified = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ProcedureName = "Teeth whitening"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Created = new DateTimeOffset(new DateTime(2025, 10, 5, 17, 36, 27, 829, DateTimeKind.Unspecified).AddTicks(7771), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedBy = "System",
-                            Duration = new TimeSpan(0, 2, 0, 0, 0),
-                            LastModified = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ProcedureName = "Dental implants"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -616,26 +406,22 @@ namespace DentalApp.Infrastructure.Migrations
             modelBuilder.Entity("DentalApp.Domain.Entities.Appointment", b =>
                 {
                     b.HasOne("DentalApp.Domain.Entities.Doctor", "Doctor")
-                        .WithMany()
+                        .WithMany("Appointments")
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("DentalApp.Domain.Entities.Procedure", "Procedure")
-                        .WithMany()
+                        .WithMany("Appointments")
                         .HasForeignKey("ProcedureId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("DentalApp.Domain.Entities.ApplicationUser", null)
-                        .WithMany()
+                    b.HasOne("DentalApp.Domain.Entities.ApplicationUser", "User")
+                        .WithMany("Appointments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("DentalApp.Domain.Entities.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
 
                     b.Navigation("Doctor");
 
@@ -716,12 +502,21 @@ namespace DentalApp.Infrastructure.Migrations
 
             modelBuilder.Entity("DentalApp.Domain.Entities.Doctor", b =>
                 {
+                    b.Navigation("Appointments");
+
                     b.Navigation("DoctorProcedures");
                 });
 
             modelBuilder.Entity("DentalApp.Domain.Entities.Procedure", b =>
                 {
+                    b.Navigation("Appointments");
+
                     b.Navigation("DoctorProcedures");
+                });
+
+            modelBuilder.Entity("DentalApp.Domain.Entities.ApplicationUser", b =>
+                {
+                    b.Navigation("Appointments");
                 });
 #pragma warning restore 612, 618
         }
