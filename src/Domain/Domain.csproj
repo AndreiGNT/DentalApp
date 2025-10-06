@@ -3,7 +3,6 @@
   <PropertyGroup>
     <RootNamespace>DentalApp.Domain</RootNamespace>
     <AssemblyName>DentalApp.Domain</AssemblyName>
-    <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
