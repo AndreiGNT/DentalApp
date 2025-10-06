@@ -4,14 +4,15 @@ using DentalApp.Application.Appointments.Commands.UpdateAppointment;
 using DentalApp.Application.Appointments.Queries.GetAppointmentWithPagination;
 using DentalApp.Application.Common.Interfaces;
 using DentalApp.Application.Common.Models;
-using MediatR;
+using DentalApp.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
-namespace DentalApp.Web.Endpoints;
+namespace DentalApp.Web.Endpoints.Appointments;
 
 [Route("api/[controller]")]
 [ApiController]
+[Application.Common.Security.Authorize]
 public class AppointmentsController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -41,16 +42,31 @@ public class AppointmentsController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("mine")]
+    public async Task<ActionResult<List<AppointmentDto>>> GetMine(
+    [FromServices] UserManager<ApplicationUser> userManager,
+    [FromQuery] GetAppointmentsQuery query)
+    {
+        var userId = userManager.GetUserId(User);
+        if (string.IsNullOrEmpty(userId)) return Unauthorized();
+
+        query = query with { UserId = userId };
+
+        var result = await _mediator.Send(query);
+        return Ok(result);
+    }
+
+
     // POST: api/appointments
     [HttpPost]
     public async Task<ActionResult<int>> Create([FromBody] CreateAppointmentCommand command)
     {
-        // Preluam durata procedurii din DB
+        // Preiau durata procedurii din Db
         var procedure = await _context.Procedures.FindAsync(command.ProcedureId);
         if (procedure == null)
             return BadRequest("Selected procedure not found.");
 
-        // Creeaza un nou command cu EndTime calculat
+        // creez un nou comand cu EndTime calculat
         var commandWithEndTime = new CreateAppointmentCommand
         {
             UserId = command.UserId,

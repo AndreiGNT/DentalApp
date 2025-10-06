@@ -3,8 +3,6 @@ using DentalApp.Application.Doctors.Commands.DeleteDoctor;
 using DentalApp.Application.Doctors.Commands.UpdateDoctor;
 using DentalApp.Application.Doctors.Queries;
 using DentalApp.Application.Common.Models;
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DentalApp.Web.Endpoints

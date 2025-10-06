@@ -1,6 +1,5 @@
 ﻿using DentalApp.Application.Common.Interfaces;
 using DentalApp.Domain.Entities;
-using MediatR;
 
 namespace DentalApp.Application.Doctors.Commands.CreateDoctor;
 

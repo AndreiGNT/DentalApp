@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
+﻿
 namespace DentalApp.Domain.Common;
 
 public abstract class BaseAuditableEntity : BaseEntity

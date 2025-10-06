@@ -25,13 +25,13 @@ public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRe
 
         if (authorizeAttributes.Any())
         {
-            // Must be authenticated user
+            // Userul trebuie sa fie autentificat
             if (_user.Id == null)
             {
                 throw new UnauthorizedAccessException();
             }
 
-            // Role-based authorization
+            // Autentificare pe baza de rol
             var authorizeAttributesWithRoles = authorizeAttributes.Where(a => !string.IsNullOrWhiteSpace(a.Roles));
 
             if (authorizeAttributesWithRoles.Any())
@@ -51,14 +51,14 @@ public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRe
                     }
                 }
 
-                // Must be a member of at least one role in roles
+                // Trebuie sa fie parte dintr-un rol
                 if (!authorized)
                 {
                     throw new ForbiddenAccessException();
                 }
             }
 
-            // Policy-based authorization
+            // Autorizare bazata pe politici
             var authorizeAttributesWithPolicies = authorizeAttributes.Where(a => !string.IsNullOrWhiteSpace(a.Policy));
             if (authorizeAttributesWithPolicies.Any())
             {
@@ -74,7 +74,6 @@ public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRe
             }
         }
 
-        // User is authorized / authorization not required
         return await next();
     }
 }

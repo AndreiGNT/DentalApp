@@ -1,6 +1,4 @@
-﻿
-using System.ComponentModel.DataAnnotations;
-
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace DentalApp.Domain.Entities;
 public class Doctor : BaseAuditableEntity

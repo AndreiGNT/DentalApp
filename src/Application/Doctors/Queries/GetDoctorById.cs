@@ -1,7 +1,5 @@
 ﻿using DentalApp.Application.Common.Interfaces;
 using DentalApp.Application.Common.Models;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace DentalApp.Application.Doctors.Queries;
 
@@ -28,7 +26,7 @@ public class GetDoctorByIdQueryHandler : IRequestHandler<GetDoctorByIdQuery, Doc
                 .FirstOrDefaultAsync(d => d.Id == request.Id, cancellationToken);
 
         if (doctor == null)
-            return null;
+            throw new KeyNotFoundException("Doctor not found.");
 
         return new DoctorDto
         {

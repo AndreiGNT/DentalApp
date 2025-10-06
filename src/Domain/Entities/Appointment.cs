@@ -1,7 +1,5 @@
 ﻿
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using DentalApp.Domain.Constants;
 
 namespace DentalApp.Domain.Entities;
 public class Appointment : BaseAuditableEntity

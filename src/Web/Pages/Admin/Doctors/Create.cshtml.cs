@@ -1,7 +1,6 @@
 using DentalApp.Application.Doctors.Commands.CreateDoctor;
 using DentalApp.Application.Common.Interfaces;
 using DentalApp.Domain.Entities;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;

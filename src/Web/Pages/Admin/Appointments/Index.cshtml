@@ -1,65 +1,66 @@
 ﻿@page
-@model DentalApp.Web.Pages.Admin.Procedures.IndexModel
+@model DentalApp.Web.Pages.Admin.Appointments.IndexModel
 @{
-    ViewData["Title"] = "Procedures Management";
+    ViewData["Title"] = "Appointments Management";
 }
-
 <div class="card shadow border-0 mt-4">
     <div class="card-header bg-info bg-gradient py-3">
         <div class="row">
             <div class="col-12 text-center">
-                <h3 class="text-white mb-0">
-                    Procedures List
-                </h3>
+                <h3 class="text-white mb-0">Appointments List</h3>
             </div>
         </div>
     </div>
-
     <div class="card-body p-4">
         <div class="row pb-3">
-            <div class="col-6">
-            </div>
+            <div class="col-6"></div>
             <div class="col-6 text-end">
                 <a href="Create" class="btn btn-info text-white">
-                    <i class="bi bi-plus-circle"></i> New Procedure
+                    <i class="bi bi-plus-circle"></i> New Appointment
                 </a>
             </div>
         </div>
 
-        @if (TempData["SuccessMessage"] != null)
+        @if (TempData["SuccessMessage"] is string msg)
         {
-            <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+            <div class="alert alert-success">@msg</div>
         }
 
-        @if (!Model.Procedures.Any())
+        @if (!Model.Appointments.Any())
         {
-            <div class="alert alert-info">No procedures found.</div>
+            <div class="alert alert-info">No appointments found.</div>
         }
         else
         {
             <table class="table table-bordered table-striped align-middle">
                 <thead class="table-light">
                     <tr>
-                        <th>Procedure Name</th>
-                        <th>Duration</th>
-                        <th>Price (RON)</th>
-                        <th style="width: 220px;"></th>
+                        <th>User</th>
+                        <th>Doctor</th>
+                        <th>Procedure</th>
+                        <th>Start</th>
+                        <th>End</th>
+                        <th>Status</th>
+                        <th style="width:220px;"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var p in Model.Procedures)
+                    @foreach (var a in Model.Appointments)
                     {
                         <tr>
-                            <td>@p.ProcedureName</td>
-                            <td>@p.Duration</td>
-                            <td>@p.Price</td>
+                            <td>@a.UserId</td>
+                            <td>@a.DoctorId</td>
+                            <td>@a.ProcedureId</td>
+                            <td>@a.StartTime.ToString("g")</td>
+                            <td>@a.EndTime.ToString("g")</td>
+                            <td>@a.Status</td>
                             <td>
                                 <div class="btn-group w-100" role="group">
-                                    <a asp-page="Update" asp-route-id="@p.Id" class="btn btn-outline-info btn-sm">
+                                    <a asp-page="Update" asp-route-id="@a.Id" class="btn btn-outline-info btn-sm">
                                         <i class="bi bi-pencil-square"></i> Edit
                                     </a>
-                                    <form method="post" asp-page-handler="Delete" asp-route-id="@p.Id"
-                                          onsubmit="return confirm('Are you sure you want to delete this procedure?');"
+                                    <form method="post" asp-page-handler="Delete" asp-route-id="@a.Id"
+                                          onsubmit="return confirm('Are you sure you want to delete this appointment?');"
                                           style="display:inline;">
                                         <button type="submit" class="btn btn-outline-danger btn-sm">
                                             <i class="bi bi-trash"></i> Delete

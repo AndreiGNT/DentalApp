@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DentalApp.Web.Pages.Admin.Doctors
 {
-    //[Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")] de decomentat dupa ce implementez partea de Account
     public class IndexModel : PageModel
     {
         private readonly IApplicationDbContext _context;

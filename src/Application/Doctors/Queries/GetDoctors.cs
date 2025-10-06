@@ -1,8 +1,5 @@
 ﻿using DentalApp.Application.Common.Interfaces;
 using DentalApp.Application.Common.Models;
-using DentalApp.Domain.Entities;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace DentalApp.Application.Doctors.Queries;
 

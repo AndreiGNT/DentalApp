@@ -1,7 +1,6 @@
 ﻿
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DentalApp.Domain.Entities;
 public class Procedure : BaseAuditableEntity

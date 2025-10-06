@@ -1,14 +1,16 @@
 ﻿
 using DentalApp.Application.Common.Interfaces;
-using DentalApp.Domain.Entities;
 
-namespace Application.Procedures.Commands.DeleteProcedure
+namespace Application.Procedures.Commands.UpdateProcedure
 {
-    public class DeleteProcedure : IRequest
+    public class UpdateProcedure : IRequest
     {
         public int Id { get; set; }
+        public string ProcedureName { get; set; } = string.Empty;
+        public TimeSpan Duration { get; set; }
+        public int Price { get; set; }
 
-        public class Handler : IRequestHandler<DeleteProcedure>
+        public class Handler : IRequestHandler<UpdateProcedure>
         {
             private readonly IApplicationDbContext _context;
 
@@ -17,7 +19,7 @@ namespace Application.Procedures.Commands.DeleteProcedure
                 _context = context;
             }
 
-            public async Task Handle(DeleteProcedure request, CancellationToken cancellationToken)
+            public async Task Handle(UpdateProcedure request, CancellationToken cancellationToken)
             {
                 var procedure = await _context.Procedures
                     .FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
@@ -25,7 +27,10 @@ namespace Application.Procedures.Commands.DeleteProcedure
                 if (procedure == null)
                     throw new KeyNotFoundException("Procedure not found.");
 
-                _context.Procedures.Remove(procedure);
+                procedure.ProcedureName = request.ProcedureName;
+                procedure.Duration = request.Duration;
+                procedure.Price = request.Price;
+
                 await _context.SaveChangesAsync(cancellationToken);
             }
         }

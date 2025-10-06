@@ -5,7 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DentalApp.Application.Appointments.Queries.GetAppointmentWithPagination;
 
-public record GetAppointmentsQuery : IRequest<List<AppointmentDto>>;
+public record GetAppointmentsQuery : IRequest<List<AppointmentDto>>
+{
+    public string? UserId { get; init; } 
+    public int? PageNumber { get; init; }
+    public int? PageSize { get; init; }
+}
 
 public class GetAppointmentsQueryHandler : IRequestHandler<GetAppointmentsQuery, List<AppointmentDto>>
 {
@@ -18,25 +23,33 @@ public class GetAppointmentsQueryHandler : IRequestHandler<GetAppointmentsQuery,
 
     public async Task<List<AppointmentDto>> Handle(GetAppointmentsQuery request, CancellationToken cancellationToken)
     {
-        var appointments = await _context.Appointments
+        var q = _context.Appointments
+            .AsNoTracking()
             .Include(a => a.User)
             .Include(a => a.Doctor)
             .Include(a => a.Procedure)
-            .ToListAsync(cancellationToken);
+            .AsQueryable();
 
-        var dtos = appointments.Select(a => new AppointmentDto
+        if (!string.IsNullOrEmpty(request.UserId))
+        {
+            q = q.Where(a => a.UserId == request.UserId);
+        }
+
+        q = q.OrderByDescending(a => a.StartTime);
+
+        var dtos = await q.Select(a => new AppointmentDto
         {
             Id = a.Id,
             UserId = a.UserId,
-            UserName = $"{a.User.FirstName} {a.User.LastName}",
+            UserName = (a.User.FirstName + " " + a.User.LastName).Trim(),
             DoctorId = a.DoctorId,
-            DoctorName = $"{a.Doctor.FullName}",
+            DoctorName = a.Doctor.FullName,
             ProcedureId = a.ProcedureId,
             ProcedureName = a.Procedure.ProcedureName,
             StartTime = a.StartTime,
             EndTime = a.EndTime,
             Status = a.Status.ToString()
-        }).ToList();
+        }).ToListAsync(cancellationToken);
 
         return dtos;
     }

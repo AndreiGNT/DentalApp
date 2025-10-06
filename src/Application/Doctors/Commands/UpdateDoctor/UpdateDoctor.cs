@@ -1,8 +1,5 @@
 ﻿using DentalApp.Application.Common.Interfaces;
-using DentalApp.Application.Doctors.Commands.DeleteDoctor;
 using DentalApp.Domain.Entities;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace DentalApp.Application.Doctors.Commands.UpdateDoctor;
 
