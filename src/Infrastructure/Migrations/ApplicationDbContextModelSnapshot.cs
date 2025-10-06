@@ -17,7 +17,7 @@ namespace DentalApp.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "9.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -161,6 +161,9 @@ namespace DentalApp.Infrastructure.Migrations
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
 
                     b.Property<string>("ProcedureName")
                         .IsRequired()
@@ -326,10 +329,12 @@ namespace DentalApp.Infrastructure.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -366,10 +371,12 @@ namespace DentalApp.Infrastructure.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -409,7 +416,7 @@ namespace DentalApp.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("DentalApp.Domain.Entities.Procedure", "Procedure")
-                        .WithMany("Appointments")
+                        .WithMany()
                         .HasForeignKey("ProcedureId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -436,9 +443,9 @@ namespace DentalApp.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("DentalApp.Domain.Entities.Procedure", "Procedure")
-                        .WithMany("DoctorProcedures")
+                        .WithMany()
                         .HasForeignKey("ProcedureId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Doctor");
@@ -498,13 +505,6 @@ namespace DentalApp.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("DentalApp.Domain.Entities.Doctor", b =>
-                {
-                    b.Navigation("Appointments");
-
-                    b.Navigation("DoctorProcedures");
-                });
-
-            modelBuilder.Entity("DentalApp.Domain.Entities.Procedure", b =>
                 {
                     b.Navigation("Appointments");
 

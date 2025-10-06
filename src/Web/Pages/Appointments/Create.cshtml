@@ -1,0 +1,58 @@
+﻿@page
+@model DentalApp.Web.Pages.Appointments.CreateModel
+@{
+    ViewData["Title"] = "Book Appointment";
+}
+
+<h1>Book an Appointment</h1>
+
+@if (ViewData["ErrorMessage"] != null)
+{
+    <div class="alert alert-warning">@ViewData["ErrorMessage"]</div>
+}
+
+<form method="post">
+    <div class="mb-3">
+        <label asp-for="Appointment.DoctorId" class="form-label">Select Doctor</label>
+        <select asp-for="Appointment.DoctorId" class="form-select">
+            <option value="">-- Select Doctor --</option>
+            @foreach (var doctor in Model.DoctorsList)
+            {
+                <option value="@doctor.Id">@doctor.FullName</option>
+            }
+        </select>
+        <span asp-validation-for="Appointment.DoctorId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Appointment.ProcedureId" class="form-label">Select Procedure</label>
+        <select asp-for="Appointment.ProcedureId" class="form-select">
+            <option value="">-- Select Procedure --</option>
+            @foreach (var proc in Model.ProceduresList)
+            {
+                <option value="@proc.Id">@proc.ProcedureName</option>
+            }
+        </select>
+        <span asp-validation-for="Appointment.ProcedureId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Appointment.StartTime" class="form-label">Start Date & Time</label>
+        <input asp-for="Appointment.StartTime"
+               type="datetime-local"
+               step="900"
+               class="form-control" />
+        <span asp-validation-for="Appointment.StartTime" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Appointment.EndTime" class="form-label">End Date & Time</label>
+        <input asp-for="Appointment.EndTime" type="datetime-local" class="form-control" readonly />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Book Appointment</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

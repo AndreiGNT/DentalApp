@@ -2,7 +2,10 @@
 
 namespace DentalApp.Application.Appointments.Commands.DeleteAppointment;
 
-public record DeleteAppointmentCommand(int Id) : IRequest;
+public record DeleteAppointmentCommand : IRequest
+{
+    public int Id { get; init; }
+}
 
 public class DeleteAppointmentCommandHandler : IRequestHandler<DeleteAppointmentCommand>
 {

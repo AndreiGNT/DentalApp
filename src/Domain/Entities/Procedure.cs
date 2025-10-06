@@ -1,18 +1,21 @@
 ﻿
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DentalApp.Domain.Entities;
 public class Procedure : BaseAuditableEntity
 {
     [Required]
     [DisplayName("Procedure Name")]
+    [MaxLength(200)]
     public string ProcedureName { get; set; } = string.Empty;
 
     [Required]
     public TimeSpan Duration { get; set; }
 
-    public ICollection<DoctorProcedure> DoctorProcedures { get; set; } = new List<DoctorProcedure>();
-
-    public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
+    [Required]
+    [Range(0, int.MaxValue, ErrorMessage = "Price must be a positive number.")]
+    public int Price { get; set; }
 }
+

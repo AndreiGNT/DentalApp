@@ -3,7 +3,10 @@ using DentalApp.Application.Common.Models;
 
 namespace DentalApp.Application.Appointments.Queries.GetAppointmentWithPagination;
 
-public record GetAppointmentByIdQuery(int Id) : IRequest<AppointmentDto?>;
+public record GetAppointmentByIdQuery : IRequest<AppointmentDto>
+{
+    public int Id { get; init; }
+}
 
 public class GetAppointmentByIdQueryHandler : IRequestHandler<GetAppointmentByIdQuery, AppointmentDto?>
 {
@@ -28,7 +31,7 @@ public class GetAppointmentByIdQueryHandler : IRequestHandler<GetAppointmentById
         {
             Id = entity.Id,
             UserId = entity.UserId,
-            UserName = entity.User?.FirstName + " " + entity.User?.LastName,
+            UserName = $"{entity.User?.FirstName} {entity.User?.LastName}",
             DoctorId = entity.DoctorId,
             DoctorName = entity.Doctor?.FullName ?? string.Empty,
             ProcedureId = entity.ProcedureId,

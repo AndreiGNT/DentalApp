@@ -16,8 +16,8 @@ public class DoctorProcedureConfiguration : IEntityTypeConfiguration<DoctorProce
                .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(dp => dp.Procedure)
-               .WithMany(p => p.DoctorProcedures)
+               .WithMany()
                .HasForeignKey(dp => dp.ProcedureId)
-               .OnDelete(DeleteBehavior.Cascade);
+               .OnDelete(DeleteBehavior.Restrict);
     }
 }

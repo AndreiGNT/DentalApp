@@ -6,7 +6,7 @@ namespace DentalApp.Web.Pages
     {
         public void OnGet()
         {
-            // vor fi afisate ceva date
+          
         }
     }
 }

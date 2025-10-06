@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DentalApp.Infrastructure.Data;
 
-public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+public class ApplicationDbContext : IdentityDbContext<IdentityUser>, IApplicationDbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) 
     {
@@ -19,6 +19,11 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     public DbSet<Procedure> Procedures { get; set; }
     public DbSet<DoctorProcedure> DoctorProcedures { get; set; }
     public DbSet<Appointment> Appointments { get; set; }
+
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        return await base.SaveChangesAsync(cancellationToken);
+    }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

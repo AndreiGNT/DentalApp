@@ -10,16 +10,14 @@ public class ProcedureConfiguration : IEntityTypeConfiguration<Procedure>
     {
         builder.HasKey(p => p.Id);
 
-        builder.Property(u => u.ProcedureName)
-               .HasMaxLength(100)
+        builder.Property(p => p.ProcedureName)
+               .IsRequired()
+               .HasMaxLength(100);
+
+        builder.Property(p => p.Duration)
                .IsRequired();
 
-        builder.Property(u => u.Duration)
+        builder.Property(p => p.Price)
                .IsRequired();
-
-        builder.HasMany(p => p.DoctorProcedures)
-               .WithOne(dp => dp.Procedure)
-               .HasForeignKey(dp => dp.ProcedureId)
-               .OnDelete(DeleteBehavior.Cascade);
     }
 }

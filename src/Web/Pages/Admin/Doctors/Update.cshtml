@@ -1,0 +1,62 @@
+﻿@page "{id:int}"
+@model DentalApp.Web.Pages.Admin.Doctors.UpdateModel
+@{
+    ViewData["Title"] = "Edit Doctor";
+}
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-warning bg-gradient py-3 text-center">
+        <h3 class="text-white mb-0">Edit Doctor</h3>
+    </div>
+    <div class="card-body p-4">
+        <form method="post">
+            <input type="hidden" asp-for="Id" />
+            <div class="mb-3">
+                <label asp-for="FullName" class="form-label">Full Name</label>
+                <input asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Select Procedures (max 3)</label>
+                <div>
+                    @foreach (var proc in Model.AllProcedures)
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   name="SelectedProcedures"
+                                   value="@proc.Id"
+                                   id="proc_@proc.Id"
+                                   @(Model.SelectedProcedures.Contains(proc.Id) ? "checked" : "") />
+                            <label class="form-check-label" for="proc_@proc.Id">@proc.ProcedureName</label>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-warning text-white">
+                <i class="bi bi-save"></i> Save Changes
+            </button>
+            <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const checkboxes = document.querySelectorAll('input[name="SelectedProcedures"]');
+            checkboxes.forEach(chk => {
+                chk.addEventListener('change', () => {
+                    const checkedCount = document.querySelectorAll('input[name="SelectedProcedures"]:checked').length;
+                    if (checkedCount > 3) {
+                        chk.checked = false;
+                        alert("You can select a maximum of 3 procedures per doctor.");
+                    }
+                });
+            });
+        });
+    </script>
+}

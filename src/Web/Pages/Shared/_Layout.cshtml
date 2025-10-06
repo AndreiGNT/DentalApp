@@ -28,15 +28,19 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-page="/Appointments/Index">Appointments</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Doctors/Index">Doctors</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Procedures/Index">Procedures</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Contact">Contact</a>
-                        </li>
+
+                        @* @if (User?.IsInRole("Admin") ?? false)
+                        { *@
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Management
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="adminMenu">
+                                <li><a href="/Admin/Doctors/Index" class="dropdown-item">Doctors</a></li>
+                                <li><a href="/Admin/Procedures/Index" class="dropdown-item">Procedures</a></li>
+                                </ul>
+                            </li>
+                        @* } *@
                     </ul>
 
                     <ul class="navbar-nav">
