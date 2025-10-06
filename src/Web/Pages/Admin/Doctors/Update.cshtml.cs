@@ -68,7 +68,7 @@ namespace DentalApp.Web.Pages.Admin.Doctors
                 return Page();
             }
 
-            return RedirectToPage("Index");
+            return RedirectToPage("/Admin/Doctors/Index");
         }
     }
 }

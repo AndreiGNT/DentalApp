@@ -7,18 +7,18 @@ public class Appointment : BaseAuditableEntity
     [ForeignKey(nameof(User))]
     public string? UserId { get; set; }
     
-    public ApplicationUser User { get; set; } = new ApplicationUser();
+    public ApplicationUser User { get; set; } = default!;
 
     [ForeignKey(nameof(Doctor))]
     public int DoctorId { get; set; }
 
-    public Doctor Doctor { get; set; } = new Doctor();
+    public Doctor Doctor { get; set; } = default!;
 
 
     [ForeignKey(nameof(Procedure))]
     public int ProcedureId { get; set; }
 
-    public Procedure Procedure { get; set; } = new Procedure();
+    public Procedure Procedure { get; set; } = default!;
 
     public DateTime StartTime { get; set; }
 

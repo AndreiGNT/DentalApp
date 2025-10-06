@@ -38,15 +38,14 @@ namespace DentalApp.Web.Pages.Admin.Doctors
         {
             if (!ModelState.IsValid)
             {
-                await OnGetAsync(); // reîncãrcãm lista procedurilor
+                await OnGetAsync(); // reîncãrcam lista procedurilor
                 return Page();
             }
 
             var command = new CreateDoctorCommand(FullName, SelectedProcedures);
             var id = await _mediator.Send(command);
 
-            TempData["SuccessMessage"] = "Doctor created successfully!";
-            return RedirectToPage("Index");
+            return RedirectToPage("/Admin/Doctors/Index");
         }
     }
 }
