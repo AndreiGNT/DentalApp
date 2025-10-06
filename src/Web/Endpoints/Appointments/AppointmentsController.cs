@@ -12,7 +12,7 @@ namespace DentalApp.Web.Endpoints.Appointments;
 
 [Route("api/[controller]")]
 [ApiController]
-[Application.Common.Security.Authorize]
+//[Application.Common.Security.Authorize]
 public class AppointmentsController : ControllerBase
 {
     private readonly IMediator _mediator;

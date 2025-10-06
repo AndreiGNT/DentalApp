@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace DentalApp.Web.Pages.Admin.Appointments;
+namespace DentalApp.Web.Pages.Appointments;
 
-[Authorize(Roles = "Admin")]
+//[Authorize(Roles = "Admin")]
 public class IndexModel : PageModel
 {
     private readonly IAppointmentsApiClient _api;
@@ -15,7 +15,8 @@ public class IndexModel : PageModel
 
     public async Task OnGetAsync()
     {
-        var list = await _api.GetMineAsync();
+        //var list = await _api.GetMineAsync();
+        var list = await _api.GetAllAsync();
         Appointments = list.Select(a => new AppointmentVm
         {
             Id = a.Id,

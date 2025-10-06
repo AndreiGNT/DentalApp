@@ -1,5 +1,5 @@
 ﻿@page
-@model DentalApp.Web.Pages.Admin.Appointments.IndexModel
+@model DentalApp.Web.Pages.Appointments.IndexModel
 @{
     ViewData["Title"] = "Appointments Management";
 }
@@ -15,7 +15,7 @@
         <div class="row pb-3">
             <div class="col-6"></div>
             <div class="col-6 text-end">
-                <a href="Create" class="btn btn-info text-white">
+                <a asp-page="/Appointments/Create" class="btn btn-info text-white">
                     <i class="bi bi-plus-circle"></i> New Appointment
                 </a>
             </div>
