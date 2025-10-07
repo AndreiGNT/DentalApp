@@ -20,7 +20,7 @@
             <div class="col-6">
             </div>
             <div class="col-6 text-end">
-                <a href="Create" class="btn btn-info text-white">
+                <a asp-area="" asp-page="Create" class="btn btn-info text-white">
                     <i class="bi bi-plus-circle"></i> New Procedure
                 </a>
             </div>
@@ -55,7 +55,7 @@
                             <td>@p.Price</td>
                             <td>
                                 <div class="btn-group w-100" role="group">
-                                    <a asp-page="Update" asp-route-id="@p.Id" class="btn btn-outline-info btn-sm">
+                                    <a asp-area="" asp-page="Update" asp-route-id="@p.Id" class="btn btn-outline-info btn-sm">
                                         <i class="bi bi-pencil-square"></i> Edit
                                     </a>
                                     <form method="post" asp-page-handler="Delete" asp-route-id="@p.Id"

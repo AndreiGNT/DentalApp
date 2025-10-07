@@ -54,15 +54,18 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseAuthentication();
-app.UseAuthorization();
+app.UseRouting(); 
+
+app.UseAuthentication();  
+app.UseAuthorization();   
 
 app.UseHealthChecks("/health");
 
-app.MapControllers();           
-app.MapProceduresEndpoints();    
-app.MapEndpoints();              
+app.MapControllers();
+app.MapProceduresEndpoints();
+app.MapEndpoints();
 app.MapRazorPages();
+
 app.MapFallbackToPage("/Index");
 
 app.Run();

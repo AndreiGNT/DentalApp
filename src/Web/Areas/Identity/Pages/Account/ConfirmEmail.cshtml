@@ -1,0 +1,36 @@
+﻿@page
+@model ConfirmEmailModel
+@{
+    ViewData["Title"] = "Email Confirmation";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow border-0">
+                <div class="card-header bg-success text-white text-center py-3">
+                    <h3>@ViewData["Title"]</h3>
+                </div>
+                <div class="card-body p-4 text-center">
+                    @if (!string.IsNullOrEmpty(Model.StatusMessage))
+                    {
+                        var isError = Model.StatusMessage.Contains("Error", StringComparison.OrdinalIgnoreCase);
+                        var alertClass = isError ? "alert-danger" : "alert-success";
+
+                        <div class="alert @alertClass" role="alert">
+                            @Model.StatusMessage
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning" role="alert">
+                            Something went wrong. Please try again.
+                        </div>
+                    }
+
+                    <a class="btn btn-primary mt-3" href="/">Go to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
