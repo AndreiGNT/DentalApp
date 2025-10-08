@@ -1,6 +1,8 @@
 ﻿using DentalApp.Application.Appointments.Commands.CreateAppointment;
 using DentalApp.Application.Common.Interfaces;
+using DentalApp.Application.Common.Security;
 using DentalApp.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -11,11 +13,13 @@ namespace DentalApp.Web.Pages.Appointments
     {
         private readonly IApplicationDbContext _context;
         private readonly IMediator _mediator;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CreateModel(IApplicationDbContext context, IMediator mediator)
+        public CreateModel(IApplicationDbContext context, IMediator mediator, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _mediator = mediator;
+            _userManager = userManager;
         }
 
         [BindProperty]
@@ -28,7 +32,7 @@ namespace DentalApp.Web.Pages.Appointments
         {
             if (User?.Identity == null || !User.Identity.IsAuthenticated)
             {
-                //return RedirectToPage("/Account/Login", new { returnUrl = "/Appointments/Create" });
+                return RedirectToPage("/Account/Login", new { area = "Identity", returnUrl = "/Appointments/Create" });
             }
 
             DoctorsList = await _context.Doctors.ToListAsync();
@@ -46,7 +50,7 @@ namespace DentalApp.Web.Pages.Appointments
         {
             if (User?.Identity == null || !User.Identity.IsAuthenticated)
             {
-                //return RedirectToPage("/Account/Login", new { returnUrl = "/Appointments/Create" });
+                return RedirectToPage("/Account/Login", new { area = "Identity", returnUrl = "/Appointments/Create" });
             }
 
             DoctorsList = await _context.Doctors.ToListAsync();
@@ -76,7 +80,7 @@ namespace DentalApp.Web.Pages.Appointments
             // Cream command cu EndTime calculat și UserId din utilizatorul logat
             var command = new CreateAppointmentCommand
             {
-                //UserId = User.Identity.Name, 
+                UserId = _userManager.GetUserId(User), 
                 DoctorId = Appointment.DoctorId,
                 ProcedureId = Appointment.ProcedureId,
                 StartTime = Appointment.StartTime,

@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace DentalApp.Application.Doctors.Commands.DeleteDoctor;
+namespace DentalApp.Application.Procedures.Commands.DeleteProcedure;
 
 public record DeleteDoctorCommand : IRequest
 {

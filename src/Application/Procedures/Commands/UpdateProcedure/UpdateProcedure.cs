@@ -1,38 +1,36 @@
-﻿
-using DentalApp.Application.Common.Interfaces;
+﻿using DentalApp.Application.Common.Interfaces;
 
-namespace Application.Procedures.Commands.UpdateProcedure
+namespace DentalApp.Application.Procedures.Commands.UpdateProcedure;
+
+public class UpdateProcedure : IRequest
 {
-    public class UpdateProcedure : IRequest
+    public int Id { get; set; }
+    public string ProcedureName { get; set; } = string.Empty;
+    public TimeSpan Duration { get; set; }
+    public int Price { get; set; }
+
+    public class UpdateProcedureHandler : IRequestHandler<UpdateProcedure>
     {
-        public int Id { get; set; }
-        public string ProcedureName { get; set; } = string.Empty;
-        public TimeSpan Duration { get; set; }
-        public int Price { get; set; }
+        private readonly IApplicationDbContext _context;
 
-        public class Handler : IRequestHandler<UpdateProcedure>
+        public UpdateProcedureHandler(IApplicationDbContext context)
         {
-            private readonly IApplicationDbContext _context;
+            _context = context;
+        }
 
-            public Handler(IApplicationDbContext context)
-            {
-                _context = context;
-            }
+        public async Task Handle(UpdateProcedure request, CancellationToken cancellationToken)
+        {
+            var procedure = await _context.Procedures
+                .FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
 
-            public async Task Handle(UpdateProcedure request, CancellationToken cancellationToken)
-            {
-                var procedure = await _context.Procedures
-                    .FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
+            if (procedure == null)
+                throw new KeyNotFoundException("Procedure not found.");
 
-                if (procedure == null)
-                    throw new KeyNotFoundException("Procedure not found.");
+            procedure.ProcedureName = request.ProcedureName;
+            procedure.Duration = request.Duration;
+            procedure.Price = request.Price;
 
-                procedure.ProcedureName = request.ProcedureName;
-                procedure.Duration = request.Duration;
-                procedure.Price = request.Price;
-
-                await _context.SaveChangesAsync(cancellationToken);
-            }
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

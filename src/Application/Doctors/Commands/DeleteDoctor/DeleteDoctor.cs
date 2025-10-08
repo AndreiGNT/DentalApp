@@ -1,33 +1,30 @@
-﻿
-using DentalApp.Application.Common.Interfaces;
-using DentalApp.Domain.Entities;
+﻿using DentalApp.Application.Common.Interfaces;
 
-namespace Application.Procedures.Commands.DeleteProcedure
+namespace DentalApp.Application.Doctors.Commands.DeleteDoctor;
+
+public class DeleteProcedure : IRequest
 {
-    public class DeleteProcedure : IRequest
+    public int Id { get; set; }
+
+    public class DeleteProcedureHandler : IRequestHandler<DeleteProcedure>
     {
-        public int Id { get; set; }
+        private readonly IApplicationDbContext _context;
 
-        public class Handler : IRequestHandler<DeleteProcedure>
+        public DeleteProcedureHandler(IApplicationDbContext context)
         {
-            private readonly IApplicationDbContext _context;
+            _context = context;
+        }
 
-            public Handler(IApplicationDbContext context)
-            {
-                _context = context;
-            }
+        public async Task Handle(DeleteProcedure request, CancellationToken cancellationToken)
+        {
+            var procedure = await _context.Procedures
+                .FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
 
-            public async Task Handle(DeleteProcedure request, CancellationToken cancellationToken)
-            {
-                var procedure = await _context.Procedures
-                    .FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
+            if (procedure == null)
+                throw new KeyNotFoundException("Procedure not found.");
 
-                if (procedure == null)
-                    throw new KeyNotFoundException("Procedure not found.");
-
-                _context.Procedures.Remove(procedure);
-                await _context.SaveChangesAsync(cancellationToken);
-            }
+            _context.Procedures.Remove(procedure);
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

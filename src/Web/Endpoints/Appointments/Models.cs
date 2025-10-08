@@ -4,7 +4,10 @@ public record AppointmentResponse(
     int Id,
     string? UserId,
     int DoctorId,
+    string UserName,
+    string DoctorName,
     int ProcedureId,
+    string ProcedureName,
     DateTime StartTime,
     DateTime EndTime,
     string? Status 

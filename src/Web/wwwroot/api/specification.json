@@ -1022,7 +1022,8 @@
             "format": "date-time"
           },
           "status": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         }
       },

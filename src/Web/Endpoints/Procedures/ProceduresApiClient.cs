@@ -47,7 +47,15 @@ public class ProceduresApiClient : IProceduresApiClient
         var http = CreateClient();
         var url = $"{BaseUrl}/api/procedures/{id}";
         var resp = await http.PutAsJsonAsync(url, req, ct);
+
+        if (!resp.IsSuccessStatusCode)
+        {
+            var content = await resp.Content.ReadAsStringAsync();
+            throw new Exception($"Update failed: {resp.StatusCode}\n{content}");
+        }
+
         resp.EnsureSuccessStatusCode();
+        
     }
 
     public async Task DeleteAsync(int id, CancellationToken ct = default)

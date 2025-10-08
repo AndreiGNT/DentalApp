@@ -27,7 +27,7 @@ public class UpdateAppointmentCommandHandler : IRequestHandler<UpdateAppointment
             .FirstOrDefaultAsync(a => a.Id == request.Id, cancellationToken);
 
         if (entity == null)
-            throw new KeyNotFoundException($"Appointment with Id {request.Id} not found.");
+            throw new KeyNotFoundException("Appointment not found.");
 
         if (!string.IsNullOrEmpty(request.UserId)) entity.UserId = request.UserId;
         if (request.DoctorId.HasValue) entity.DoctorId = request.DoctorId.Value;

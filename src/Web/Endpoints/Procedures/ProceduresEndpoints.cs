@@ -1,9 +1,6 @@
-﻿
-using Application.Procedures.Commands.CreateProcedure;
-using Application.Procedures.Commands.DeleteProcedure;
-using Application.Procedures.Commands.UpdateProcedure;
-using Application.Procedures.Queries.GetProcedureById;
-using Application.Procedures.Queries.GetProcedures;
+﻿using DentalApp.Application.Procedures.Queries;
+using DentalApp.Application.Procedures.Commands.UpdateProcedure;
+using DentalApp.Application.Doctors.Commands.DeleteDoctor;
 
 namespace DentalApp.Web.Endpoints.Procedures;
 

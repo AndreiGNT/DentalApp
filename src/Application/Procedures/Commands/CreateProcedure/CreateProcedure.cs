@@ -1,38 +1,34 @@
-﻿
-using DentalApp.Application.Common.Interfaces;
+﻿using DentalApp.Application.Common.Interfaces;
 using DentalApp.Domain.Entities;
 
-namespace Application.Procedures.Commands.CreateProcedure
+public class CreateProcedure : IRequest<int> 
 {
-    public class CreateProcedure : IRequest
+    public string ProcedureName { get; set; } = string.Empty;
+    public TimeSpan Duration { get; set; }
+    public int Price { get; set; }
+
+    public class CreateProcedureHandler : IRequestHandler<CreateProcedure, int>
     {
-        public string ProcedureName { get; set; } = string.Empty;
-        public TimeSpan Duration { get; set; }
-        public int Price { get; set; }
+        private readonly IApplicationDbContext _context;
 
-        public class Handler : IRequestHandler<CreateProcedure>
+        public CreateProcedureHandler(IApplicationDbContext context)
         {
-            private readonly IApplicationDbContext _context;
+            _context = context;
+        }
 
-            public Handler(IApplicationDbContext context)
+        public async Task<int> Handle(CreateProcedure request, CancellationToken cancellationToken)
+        {
+            var entity = new Procedure
             {
-                _context = context;
-            }
+                ProcedureName = request.ProcedureName,
+                Duration = request.Duration,
+                Price = request.Price
+            };
 
-            public async Task Handle(CreateProcedure request, CancellationToken cancellationToken)
-            {
-                var entity = new Procedure
-                {
-                    ProcedureName = request.ProcedureName,
-                    Duration = request.Duration,
-                    Price = request.Price
-                };
+            _context.Procedures.Add(entity);
+            await _context.SaveChangesAsync(cancellationToken);
 
-                _context.Procedures.Add(entity);
-
-                await _context.SaveChangesAsync(cancellationToken);
-
-            }
+            return entity.Id;
         }
     }
 }

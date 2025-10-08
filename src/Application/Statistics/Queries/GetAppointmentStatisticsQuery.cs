@@ -1,5 +1,4 @@
 ﻿using DentalApp.Application.Common.Models;
-using MediatR;
 
 namespace DentalApp.Application.Statistics.Queries;
 

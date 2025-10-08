@@ -76,7 +76,7 @@ namespace DentalApp.Web.Areas.Identity.Pages.Account
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
 
                 user.FirstName = Input.FirstName;
-                user.LastName = Input.LastName;
+                user.LastName = Input.FirstName;
                 user.PhoneNumber = Input.PhoneNumber;
                 user.IsConfirmed = false;
                 user.ConfirmationToken = Guid.NewGuid().ToString();

@@ -22,7 +22,7 @@ public class DeleteAppointmentCommandHandler : IRequestHandler<DeleteAppointment
             .FirstOrDefaultAsync(a => a.Id == request.Id, cancellationToken);
 
         if (entity == null)
-            throw new KeyNotFoundException($"Appointment with Id {request.Id} not found.");
+            throw new KeyNotFoundException("Appointment not found.");
 
         _context.Appointments.Remove(entity);
         await _context.SaveChangesAsync(cancellationToken);
