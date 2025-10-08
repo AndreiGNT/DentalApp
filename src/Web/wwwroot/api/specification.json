@@ -300,6 +300,36 @@
         }
       }
     },
+    "/api/Statistics": {
+      "get": {
+        "tags": [
+          "Statistics"
+        ],
+        "operationId": "Statistics_GetStatistics",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppointmentStatisticsDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": [
+              "Admin"
+            ]
+          }
+        ]
+      }
+    },
     "/api/Appointments": {
       "get": {
         "tags": [
@@ -935,6 +965,22 @@
               "type": "integer",
               "format": "int32"
             }
+          }
+        }
+      },
+      "AppointmentStatisticsDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "doctorName": {
+            "type": "string"
+          },
+          "procedureName": {
+            "type": "string"
+          },
+          "appointmentCount": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },

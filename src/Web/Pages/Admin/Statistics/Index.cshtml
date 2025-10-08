@@ -1,0 +1,44 @@
+﻿@page
+@model DentalApp.Web.Pages.Admin.Statistics.IndexModel
+@{
+    ViewData["Title"] = "Statistics";
+}
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-info bg-gradient py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h3 class="text-white mb-0">Appointment Statistics</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body p-4">
+        @if (Model.Statistics.Count == 0)
+        {
+            <div class="alert alert-info">No statistics found.</div>
+        }
+        else
+        {
+            <table class="table table-bordered table-striped align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Doctor</th>
+                        <th>Procedure</th>
+                        <th>Appointments</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var stat in Model.Statistics)
+                    {
+                        <tr>
+                            <td>@stat.DoctorName</td>
+                            <td>@stat.ProcedureName</td>
+                            <td>@stat.AppointmentCount</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
