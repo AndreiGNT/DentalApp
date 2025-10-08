@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DentalApp.Web.Pages.Appointments;
 
-[Authorize(Roles = "Admin")]
+[Authorize]
 public class IndexModel : PageModel
 {
     private readonly IAppointmentsApiClient _api;

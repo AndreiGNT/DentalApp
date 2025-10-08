@@ -38,7 +38,7 @@ namespace DentalApp.Web.Pages.Admin.Doctors
         {
             if (!ModelState.IsValid)
             {
-                await OnGetAsync(); // reîncãrcam lista procedurilor
+                await OnGetAsync();
                 return Page();
             }
 

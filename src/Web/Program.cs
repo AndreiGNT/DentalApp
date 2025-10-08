@@ -2,9 +2,12 @@ using DentalApp.Application.Common.Interfaces;
 using DentalApp.Domain.Entities;
 using DentalApp.Infrastructure;
 using DentalApp.Infrastructure.Data;
+using DentalApp.Web.Areas.Identity.Pages.Account.Manage;
 using DentalApp.Web.Endpoints;
 using DentalApp.Web.Endpoints.Appointments;
 using DentalApp.Web.Endpoints.Procedures;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,8 +21,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddControllers();
 
 builder.Services
-    //.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddDefaultIdentity<ApplicationUser>()
+    .AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -34,6 +36,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<IProceduresApiClient, ProceduresApiClient>();
 builder.Services.AddScoped<IAppointmentsApiClient, AppointmentsApiClient>();
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 var app = builder.Build();
 
