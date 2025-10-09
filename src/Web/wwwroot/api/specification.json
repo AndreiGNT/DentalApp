@@ -6,140 +6,6 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/api/procedures": {
-      "get": {
-        "tags": [
-          "Procedures"
-        ],
-        "operationId": "GetApiProcedures",
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Procedures"
-        ],
-        "operationId": "PostApiProcedures",
-        "requestBody": {
-          "x-name": "req",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateProcedureRequest"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
-      }
-    },
-    "/api/procedures/{id}": {
-      "get": {
-        "tags": [
-          "Procedures"
-        ],
-        "operationId": "GetApiProcedures2",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Procedures"
-        ],
-        "operationId": "PutApiProcedures",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          }
-        ],
-        "requestBody": {
-          "x-name": "req",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateProcedureRequest"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 2
-        },
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
-      },
-      "delete": {
-        "tags": [
-          "Procedures"
-        ],
-        "operationId": "DeleteApiProcedures",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
-      }
-    },
     "/api/Statistics": {
       "get": {
         "tags": [
@@ -168,6 +34,166 @@
             ]
           }
         ]
+      }
+    },
+    "/api/Procedures": {
+      "get": {
+        "tags": [
+          "Procedures"
+        ],
+        "operationId": "Procedures_GetAllProcedures",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProcedureDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Procedures"
+        ],
+        "operationId": "Procedures_CreateProcedure",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProcedureCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Procedures/{id}": {
+      "get": {
+        "tags": [
+          "Procedures"
+        ],
+        "operationId": "Procedures_GetProcedureById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcedureDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Procedures"
+        ],
+        "operationId": "Procedures_UpdateProcedure",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProcedureCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Procedures"
+        ],
+        "operationId": "Procedures_DeleteProcedure",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/Doctors": {
@@ -578,40 +604,6 @@
   },
   "components": {
     "schemas": {
-      "CreateProcedureRequest": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "procedureName": {
-            "type": "string"
-          },
-          "duration": {
-            "type": "string",
-            "format": "duration"
-          },
-          "price": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "UpdateProcedureRequest": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "procedureName": {
-            "type": "string"
-          },
-          "duration": {
-            "type": "string",
-            "format": "duration"
-          },
-          "price": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
       "AppointmentStatisticsDto": {
         "type": "object",
         "additionalProperties": false,
@@ -623,6 +615,71 @@
             "type": "string"
           },
           "appointmentCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ProcedureDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "procedureName": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "string",
+            "format": "duration"
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "doctors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "CreateProcedureCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "procedureName": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "string",
+            "format": "duration"
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "UpdateProcedureCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "procedureName": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "string",
+            "format": "duration"
+          },
+          "price": {
             "type": "integer",
             "format": "int32"
           }

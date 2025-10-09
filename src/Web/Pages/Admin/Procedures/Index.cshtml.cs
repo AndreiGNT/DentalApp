@@ -1,34 +1,39 @@
-using DentalApp.Application.Common.Models;
-using DentalApp.Web.Endpoints.Procedures;
+using DentalApp.Application.Common.Interfaces;
+using DentalApp.Application.Common.Security;
+using DentalApp.Application.Procedures.Commands.DeleteProcedure;
+using DentalApp.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
-namespace DentalApp.Web.Pages.Admin.Procedures
+namespace DentalApp.Web.Pages.Admin.Procedures;
+
+[Authorize(Roles = "Admin")]
+public class IndexModel : PageModel
 {
-    public class IndexModel : PageModel
+    private readonly IApplicationDbContext _context;
+    private readonly IMediator _mediator;
+
+    public IndexModel(IMediator mediator, IApplicationDbContext context)
     {
-        private readonly IProceduresApiClient _api;
-        public IndexModel(IProceduresApiClient api) { _api = api; }
+        _mediator = mediator;
+        _context = context;
+    }
 
-        public List<ProcedureDto> Procedures { get; set; } = new();
+    public List<Procedure> Procedures { get; set; } = new();
 
-        public async Task OnGetAsync()
-        {
-            var list = await _api.GetAllAsync();
-            Procedures = list.Select(p => new ProcedureDto
-            {
-                Id = p.Id,
-                ProcedureName = p.ProcedureName,
-                Duration = p.Duration,
-                Price = p.Price
-            }).ToList();
-        }
+    public async Task<IActionResult> OnGetAsync()
+    {
+        Procedures = await _context.Procedures
+                .AsNoTracking()
+                .ToListAsync();
 
-        public async Task<IActionResult> OnPostDeleteAsync(int id)
-        {
-            await _api.DeleteAsync(id);
-            TempData["SuccessMessage"] = "Procedure deleted successfully.";
-            return RedirectToPage();
-        }
+        return Page();
+    }
+
+    public async Task<IActionResult> OnPostDeleteAsync(int id)
+    {
+        await _mediator.Send(new DeleteProcedureCommand { Id = id });
+        return RedirectToPage();
     }
 }

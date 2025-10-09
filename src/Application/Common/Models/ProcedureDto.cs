@@ -8,4 +8,6 @@ public class ProcedureDto
     public TimeSpan Duration { get; set; }
 
     public int Price { get; set; }
+
+    public List<string> Doctors { get; set; } = new();
 }

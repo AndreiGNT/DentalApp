@@ -1,4 +1,5 @@
 ﻿@page
+@using DentalApp.Web.Pages.Admin.Procedures
 @model DentalApp.Web.Pages.Admin.Procedures.CreateModel
 @{
     ViewData["Title"] = "Add Procedure";
@@ -18,26 +19,26 @@
     <div class="card-body p-4">
         <form method="post">
             <div class="mb-3">
-                <label asp-for="Form.ProcedureName" class="form-label"></label>
-                <input asp-for="Form.ProcedureName" class="form-control" />
-                <span asp-validation-for="Form.ProcedureName" class="text-danger"></span>
+                <label asp-for="ProcedureName" class="form-label">ProcedureName</label>
+                <input asp-for="ProcedureName" class="form-control" />
+                <span asp-validation-for="ProcedureName" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="Form.Duration" class="form-label"></label>
-                <select asp-for="Form.Duration" asp-items="Model.DurationOptions" class="form-select">
+                <label asp-for="Duration" class="form-label">Duration</label>
+                <select asp-for="Duration" asp-items="Model.DurationOptions" class="form-select">
                     <option value="">-- select duration --</option>
                 </select>
-                <span asp-validation-for="Form.Duration" class="text-danger"></span>
+                <span asp-validation-for="Duration" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="Form.Price" class="form-label"></label>
-                <input asp-for="Form.Price" class="form-control" />
-                <span asp-validation-for="Form.Price" class="text-danger"></span>
+                <label asp-for="Price" class="form-label">Price</label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
             </div>
 
-            <a href="Index" class="btn btn-primary">Save</a>
+            <button type="submit" class="btn btn-primary">Save</
             <a href="Index" class="btn btn-secondary">Cancel</a>
         </form>
     </div>

@@ -1,17 +1,34 @@
-﻿using DentalApp.Application.Common.Models;
-using DentalApp.Web.Endpoints.Procedures;
+﻿using DentalApp.Application.Common.Interfaces;
+using DentalApp.Application.Procedures.Commands.UpdateProcedure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace DentalApp.Web.Pages.Admin.Procedures
 {
     public class UpdateModel : PageModel
     {
-        private readonly IProceduresApiClient _api;
-        public UpdateModel(IProceduresApiClient api) { _api = api; }
+        private readonly IApplicationDbContext _context;
+        private readonly IMediator _mediator;
 
-        [BindProperty] public ProcedureDto Form { get; set; } = new();
+        public UpdateModel(IApplicationDbContext context, IMediator mediator)
+        {
+            _context = context;
+            _mediator = mediator;
+        }
+
+        [BindProperty]
+        public int Id { get; set; }
+
+        [BindProperty]
+        public string ProcedureName { get; set; } = string.Empty;
+
+        [BindProperty]
+        public int Price { get; set; }
+
+        [BindProperty]
+        public TimeSpan Duration { get; set; }
 
         public List<SelectListItem> DurationOptions { get; private set; } = new();
 
@@ -30,19 +47,24 @@ namespace DentalApp.Web.Pages.Admin.Procedures
             }
         }
 
-        public async Task OnGetAsync(int id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
             BuildDurationOptions();
 
-            var dto = await _api.GetByIdAsync(id);
+            var procedure = await _context.Procedures
+                .FirstOrDefaultAsync(d => d.Id == id);
 
-            Form = new ProcedureDto
+            if (procedure == null)
             {
-                Id = dto.Id,
-                ProcedureName = dto.ProcedureName,
-                Duration = dto.Duration,
-                Price = dto.Price
-            };
+                return NotFound();
+            }
+
+            Id = procedure.Id;
+            ProcedureName = procedure.ProcedureName;
+            Price = procedure.Price;
+            Duration = procedure.Duration;
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -53,16 +75,23 @@ namespace DentalApp.Web.Pages.Admin.Procedures
                 return Page();
             }
 
-            var req = new UpdateProcedureRequest(
-                ProcedureName: Form.ProcedureName,
-                Duration: Form.Duration,
-                Price: Form.Price
-            );
+            try
+            {
+                await _mediator.Send(new UpdateProcedureCommand
+                {
+                    Id = Id,
+                    ProcedureName = ProcedureName,
+                    Price = Price,
+                    Duration = Duration
+                });
+            }
+            catch (InvalidOperationException ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+                return Page();
+            }
 
-            await _api.UpdateAsync(Form.Id, req);
-            TempData["SuccessMessage"] = "Procedure updated successfully.";
-            return RedirectToPage("Index");
+            return RedirectToPage("/Admin/Procedures/Index");
         }
-
     }
 }

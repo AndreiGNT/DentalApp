@@ -1,5 +1,5 @@
-﻿using DentalApp.Application.Common.Models;
-using DentalApp.Web.Endpoints.Procedures;
+﻿using DentalApp.Application.Common.Interfaces;
+using DentalApp.Application.Procedures.Commands.CreateProcedure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,13 +9,22 @@ namespace DentalApp.Web.Pages.Admin.Procedures
 {
     public class CreateModel : PageModel
     {
-        private readonly IProceduresApiClient _api;
-        public CreateModel(IProceduresApiClient api) 
-        { 
-            _api = api; 
+        private readonly IMediator _mediator;
+        private readonly IApplicationDbContext _context;
+
+        public CreateModel(IMediator mediator, IApplicationDbContext context)
+        {
+            _mediator = mediator;
+            _context = context;
         }
 
-        [BindProperty] public ProcedureDto Form { get; set; } = new();
+        [BindProperty]
+        public string ProcedureName { get; set; } = string.Empty;
+
+        [BindProperty]
+        public int Price { get; set; }
+        [BindProperty]
+        public TimeSpan Duration { get; set; }
 
         public List<SelectListItem> DurationOptions { get; private set; } = new();
 
@@ -34,7 +43,7 @@ namespace DentalApp.Web.Pages.Admin.Procedures
             }
         }
 
-        public Task OnGet() 
+        public  Task OnGetAsync() 
         {
             BuildDurationOptions();
 
@@ -45,19 +54,14 @@ namespace DentalApp.Web.Pages.Admin.Procedures
         {
             if (!ModelState.IsValid)
             {
-                BuildDurationOptions();
+                await OnGetAsync();
                 return Page();
             }
 
-            var req = new CreateProcedureRequest(
-                ProcedureName: Form.ProcedureName,
-                Duration: Form.Duration,
-                Price: Form.Price
-            );
+            var command = new CreateProcedureCommand(ProcedureName, Duration, Price);
+            var id = await _mediator.Send(command);
 
-            await _api.CreateAsync(req);
-            TempData["SuccessMessage"] = "Procedure created successfully.";
-            return RedirectToPage("Index");
+            return RedirectToPage("/Admin/Procedures/Index");
         }
     }
 }

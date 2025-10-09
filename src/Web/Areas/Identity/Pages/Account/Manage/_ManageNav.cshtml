@@ -4,14 +4,25 @@
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
-<ul class="nav nav-pills flex-column">
-    <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Password</a></li>
-    @if (hasExternalLogins)
-    {
-        <li id="external-logins" class="nav-item"><a id="external-login" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">External logins</a></li>
-    }
-    <li class="nav-item"><a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal data</a></li>
+<ul class="list-group list-group-flush">
+    <li class="list-group-item">
+        <a class="text-decoration-none fw-semibold text-dark" asp-page="./Index">
+            <i class="bi bi-person-lines-fill me-2 text-primary"></i> Profile
+        </a>
+    </li>
+    <li class="list-group-item">
+        <a class="text-decoration-none fw-semibold text-dark" asp-page="./Email">
+            <i class="bi bi-envelope-paper me-2 text-success"></i> Email
+        </a>
+    </li>
+    <li class="list-group-item">
+        <a class="text-decoration-none fw-semibold text-dark" asp-page="./ChangePassword">
+            <i class="bi bi-key-fill me-2 text-warning"></i> Password
+        </a>
+    </li>
+    <li class="list-group-item">
+        <a class="text-decoration-none fw-semibold text-dark" asp-page="./TwoFactorAuthentication">
+            <i class="bi bi-shield-lock me-2 text-danger"></i> Two-Factor Auth
+        </a>
+    </li>
 </ul>

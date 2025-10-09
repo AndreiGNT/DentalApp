@@ -1,9 +1,3 @@
-﻿using DentalApp.Application.Common.Interfaces;
-using DentalApp.Domain.Entities;
+﻿namespace DentalApp.Application.Procedures.Commands.CreateProcedure;   
 
-public class CreateProcedureCommand : IRequest<int> 
-{
-    public string ProcedureName { get; set; } = string.Empty;
-    public TimeSpan Duration { get; set; }
-    public int Price { get; set; }
-}
+public record CreateProcedureCommand(string ProcedureName, TimeSpan Duration, int Price) : IRequest<int>;

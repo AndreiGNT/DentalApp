@@ -22,7 +22,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddControllers();
 
 builder.Services
-    .AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -35,10 +35,9 @@ builder.Services.AddAuthorizationBuilder()
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
-builder.Services.AddScoped<IProceduresApiClient, ProceduresApiClient>();
 builder.Services.AddScoped<IAppointmentsApiClient, AppointmentsApiClient>();
 //builder.Services.AddHostedService<AppointmentReminderService>();
-builder.Services.AddTransient<IEmailSender, EmailSenderService>();
+//builder.Services.AddTransient<IEmailSender, EmailSenderService>();
 
 var app = builder.Build();
 
@@ -70,7 +69,6 @@ app.UseAuthorization();
 app.UseHealthChecks("/health");
 
 app.MapControllers();
-app.MapProceduresEndpoints();
 app.MapEndpoints();
 app.MapRazorPages();
 
