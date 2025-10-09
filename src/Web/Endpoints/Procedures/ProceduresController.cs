@@ -1,4 +1,5 @@
 ﻿using DentalApp.Application.Common.Models;
+using DentalApp.Application.Common.Security;
 using DentalApp.Application.Procedures.Commands.CreateProcedure;
 using DentalApp.Application.Procedures.Commands.DeleteProcedure;
 using DentalApp.Application.Procedures.Commands.UpdateProcedure;
@@ -9,7 +10,7 @@ namespace DentalApp.Web.Endpoints.Procedures;
 
 [ApiController]
 [Route("api/[controller]")]
-//[Authorize(Roles = "Admin")]
+[Authorize(Roles = "Admin")]
 public class ProceduresController : ControllerBase
 {
     private readonly IMediator _mediator;

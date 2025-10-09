@@ -48,9 +48,9 @@
                     @foreach (var a in Model.Appointments)
                     {
                         <tr>
-                            <td>@a.UserName</td>
-                            <td>@a.DoctorName</td>
-                            <td>@a.ProcedureName</td>
+                            <td>@a.User.FirstName @a.User.LastName</td>
+                            <td>@a.Doctor.FullName</td>
+                            <td>@a.Procedure.ProcedureName</td>
                             <td>@a.StartTime.ToString("g")</td>
                             <td>@a.EndTime.ToString("g")</td>
                             <td>@a.Status</td>

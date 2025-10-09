@@ -21,8 +21,19 @@ namespace DentalApp.Web.Pages.Appointments
             _userManager = userManager;
         }
 
+        public string? UserId { get; set; }
+
         [BindProperty]
-        public CreateAppointmentCommand Appointment { get; set; } = new();
+        public int DoctorId { get; set; }
+
+        [BindProperty]
+        public int ProcedureId { get; set; }
+
+        [BindProperty]
+        public DateTime StartTime { get; set; }
+
+        public DateTime EndTime { get; set; }
+
 
         public List<Doctor> DoctorsList { get; set; } = new();
         public List<Procedure> ProceduresList { get; set; } = new();
@@ -60,31 +71,42 @@ namespace DentalApp.Web.Pages.Appointments
                 return Page();
             }
 
-            // Validare StartTime între 08:00 și 17:00
-            var startHour = Appointment.StartTime.Hour;
-            if (startHour < 8 || startHour >= 17)
+            // Validare StartTime
+
+            var startDate = StartTime.Date;
+            if (startDate <= DateTime.Today)
             {
-                ModelState.AddModelError("Appointment.StartTime", "Appointments can only be scheduled between 08:00 and 17:00.");
+                ModelState.AddModelError("StartTime", "Appointments must be scheduled at least one day in advance.");
+                return Page();
+            }
+
+            var startHour = StartTime.Hour;
+            if (startHour < 8 || startHour > 17)
+            {
+                ModelState.AddModelError("StartTime", "Appointments can only be scheduled between 08:00 and 17:00.");
                 return Page();
             }
 
             // Preluam procedura selectată pentru durata
-            var procedure = await _context.Procedures.FirstOrDefaultAsync(p => p.Id == Appointment.ProcedureId);
+            var procedure = await _context.Procedures.FirstOrDefaultAsync(p => p.Id == ProcedureId);
             if (procedure == null)
             {
                 ModelState.AddModelError(string.Empty, "Selected procedure not found.");
                 return Page();
             }
 
+            UserId = _userManager.GetUserId(User);
+            EndTime = StartTime.Add(procedure.Duration);
+
             // Cream command cu EndTime calculat și UserId din utilizatorul logat
-            var command = new CreateAppointmentCommand
-            {
-                UserId = _userManager.GetUserId(User), 
-                DoctorId = Appointment.DoctorId,
-                ProcedureId = Appointment.ProcedureId,
-                StartTime = Appointment.StartTime,
-                EndTime = Appointment.StartTime.Add(procedure.Duration)
-            };
+            var command = new CreateAppointmentCommand(
+            
+                UserId, 
+                DoctorId,
+                ProcedureId,
+                StartTime,
+                EndTime
+            );
 
             var newId = await _mediator.Send(command);
 

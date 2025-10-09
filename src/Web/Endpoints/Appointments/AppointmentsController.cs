@@ -4,15 +4,14 @@ using DentalApp.Application.Appointments.Commands.UpdateAppointment;
 using DentalApp.Application.Appointments.Queries;
 using DentalApp.Application.Common.Interfaces;
 using DentalApp.Application.Common.Models;
-using DentalApp.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
+using DentalApp.Application.Common.Security;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DentalApp.Web.Endpoints.Appointments;
 
 [Route("api/[controller]")]
 [ApiController]
-[Application.Common.Security.Authorize]
+[Authorize(Roles = "Admin")]
 public class AppointmentsController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -26,8 +25,9 @@ public class AppointmentsController : ControllerBase
 
     // GET: api/appointments
     [HttpGet]
-    public async Task<ActionResult<List<AppointmentDto>>> GetAppointments([FromQuery] GetAppointmentsQuery query)
+    public async Task<ActionResult<List<AppointmentDto>>> GetAppointments()
     {
+        var query = new GetAppointmentsQuery();
         var result = await _mediator.Send(query);
         return Ok(result);
     }
@@ -47,28 +47,15 @@ public class AppointmentsController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("mine")]
-    public async Task<ActionResult<List<AppointmentDto>>> GetMine(
-    [FromServices] UserManager<ApplicationUser> userManager,
-    [FromQuery] GetAppointmentsQuery query)
-    {
-        var userId = userManager.GetUserId(User);
-        if (string.IsNullOrEmpty(userId))
-        {
-            return Unauthorized();
-        }
-
-        query = query with { UserId = userId };
-
-        var result = await _mediator.Send(query);
-        return Ok(result);
-    }
-
-
     // POST: api/appointments
     [HttpPost]
-    public async Task<ActionResult<int>> Create([FromBody] CreateAppointmentCommand command)
+    public async Task<ActionResult<int>> CreateAppointment([FromBody] CreateAppointmentCommand command)
     {
+        if (command == null)
+        {
+            return BadRequest("Invalid doctor data.");
+        }
+
         // Preiau durata procedurii din Db
         var procedure = await _context.Procedures.FindAsync(command.ProcedureId);
 
@@ -79,13 +66,13 @@ public class AppointmentsController : ControllerBase
 
         // creez un nou comand cu EndTime calculat
         var commandWithEndTime = new CreateAppointmentCommand
-        {
-            UserId = command.UserId,
-            DoctorId = command.DoctorId,
-            ProcedureId = command.ProcedureId,
-            StartTime = command.StartTime,
-            EndTime = command.StartTime.Add(procedure.Duration)
-        };
+        (
+            command.UserId,
+            command.DoctorId,
+            command.ProcedureId,
+            command.StartTime,
+            command.StartTime.Add(procedure.Duration)
+        );
 
         var id = await _mediator.Send(commandWithEndTime);
 
@@ -98,7 +85,7 @@ public class AppointmentsController : ControllerBase
     {
         if (id != command.Id)
         {
-            return BadRequest();
+            return BadRequest("Procedure ID mismatch.");
         }
 
         await _mediator.Send(command);

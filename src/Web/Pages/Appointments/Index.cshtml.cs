@@ -1,40 +1,55 @@
-using DentalApp.Application.Common.Models;
-using DentalApp.Web.Endpoints.Appointments;
+using DentalApp.Application.Appointments.Commands.DeleteAppointment;
+using DentalApp.Application.Common.Interfaces;
+using DentalApp.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace DentalApp.Web.Pages.Appointments;
 
 [Authorize]
 public class IndexModel : PageModel
 {
-    private readonly IAppointmentsApiClient _api;
-    public IndexModel(IAppointmentsApiClient api) => _api = api;
+    private readonly IApplicationDbContext _context;
+    private readonly IMediator _mediator;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public List<AppointmentDto> Appointments { get; set; } = new();
-
-    public async Task OnGetAsync()
+    public IndexModel(IMediator mediator, IApplicationDbContext context, UserManager<ApplicationUser> userManager)
     {
-        var list = await _api.GetMineAsync();
-        Appointments = list.Select(a => new AppointmentDto
+        _mediator = mediator;
+        _context = context;
+        _userManager = userManager;
+    }
+
+    public List<Appointment> Appointments { get; set; } = new();
+
+    public async Task<IActionResult> OnGetAsync()
+    {
+        var userId = _userManager.GetUserId(User);
+        var isAdmin = User.IsInRole("Admin");
+
+        IQueryable<Appointment> query = _context.Appointments
+            .Include(a => a.User)
+            .Include(a => a.Doctor)
+            .Include(a => a.Procedure)
+            .AsNoTracking();
+
+        if (!isAdmin)
         {
-            Id = a.Id,
-            DoctorId = a.DoctorId,
-            UserName = a.UserName,
-            DoctorName = a.DoctorName,
-            ProcedureName = a.ProcedureName,
-            ProcedureId = a.ProcedureId,
-            StartTime = a.StartTime,
-            EndTime = a.EndTime,
-            Status = a.Status
-        }).ToList();
+            query = query.Where(a => a.UserId == userId);
+        }
+
+        Appointments = await query.ToListAsync();
+
+        return Page();
     }
 
     public async Task<IActionResult> OnPostDeleteAsync(int id)
     {
-        await _api.DeleteAsync(id);
-        TempData["SuccessMessage"] = "Appointment deleted successfully.";
+        await _mediator.Send(new DeleteAppointmentCommand { Id = id });
         return RedirectToPage();
     }
 }

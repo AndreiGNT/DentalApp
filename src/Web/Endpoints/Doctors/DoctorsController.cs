@@ -4,12 +4,13 @@ using DentalApp.Application.Doctors.Queries;
 using DentalApp.Application.Common.Models;
 using Microsoft.AspNetCore.Mvc;
 using DentalApp.Application.Doctors.Commands.DeleteDoctor;
+using DentalApp.Application.Common.Security;
 
 namespace DentalApp.Web.Endpoints.Doctors;
 
 [ApiController]
 [Route("api/[controller]")]
-//[Authorize(Roles = "Admin")]
+[Authorize(Roles = "Admin")]
 public class DoctorsController : ControllerBase
 {
     private readonly IMediator _mediator;

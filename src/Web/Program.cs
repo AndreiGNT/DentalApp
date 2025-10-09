@@ -1,14 +1,8 @@
 using DentalApp.Application.Common.Interfaces;
-using DentalApp.Application.Common.Service;
 using DentalApp.Domain.Entities;
 using DentalApp.Infrastructure;
 using DentalApp.Infrastructure.Data;
 using DentalApp.Web;
-using DentalApp.Web.Endpoints;
-using DentalApp.Web.Endpoints.Appointments;
-using DentalApp.Web.Endpoints.Procedures;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,7 +29,6 @@ builder.Services.AddAuthorizationBuilder()
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
-builder.Services.AddScoped<IAppointmentsApiClient, AppointmentsApiClient>();
 //builder.Services.AddHostedService<AppointmentReminderService>();
 //builder.Services.AddTransient<IEmailSender, EmailSenderService>();
 
