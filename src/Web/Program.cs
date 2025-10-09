@@ -3,6 +3,7 @@ using DentalApp.Application.Common.Service;
 using DentalApp.Domain.Entities;
 using DentalApp.Infrastructure;
 using DentalApp.Infrastructure.Data;
+using DentalApp.Web;
 using DentalApp.Web.Endpoints;
 using DentalApp.Web.Endpoints.Appointments;
 using DentalApp.Web.Endpoints.Procedures;
@@ -36,7 +37,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<IProceduresApiClient, ProceduresApiClient>();
 builder.Services.AddScoped<IAppointmentsApiClient, AppointmentsApiClient>();
-builder.Services.AddHostedService<AppointmentReminderService>();
+//builder.Services.AddHostedService<AppointmentReminderService>();
 builder.Services.AddTransient<IEmailSender, EmailSenderService>();
 
 var app = builder.Build();

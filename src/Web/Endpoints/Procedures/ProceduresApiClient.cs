@@ -22,6 +22,7 @@ public class ProceduresApiClient : IProceduresApiClient
         var http = CreateClient();
         var url = $"{BaseUrl}/api/procedures";
         var data = await http.GetFromJsonAsync<List<ProcedureResponse>>(url, ct);
+
         return data ?? new List<ProcedureResponse>();
     }
 
@@ -30,7 +31,11 @@ public class ProceduresApiClient : IProceduresApiClient
         var http = CreateClient();
         var url = $"{BaseUrl}/api/procedures/{id}";
         var data = await http.GetFromJsonAsync<ProcedureResponse>(url, ct);
-        if (data is null) throw new KeyNotFoundException("Procedure not found.");
+
+        if (data is null)
+        {
+            throw new KeyNotFoundException("Procedure not found.");
+        }
         return data;
     }
 

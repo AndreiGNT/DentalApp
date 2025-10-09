@@ -3,11 +3,10 @@ using DentalApp.Application.Common.Interfaces;
 using DentalApp.Infrastructure.Data;
 using DentalApp.Web.Services;
 using Microsoft.AspNetCore.Mvc;
-
 using NSwag;
 using NSwag.Generation.Processors.Security;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace DentalApp.Web;
 
 public static class DependencyInjection
 {

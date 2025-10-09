@@ -1,6 +1,5 @@
 ﻿using DentalApp.Application.Appointments.Commands.CreateAppointment;
 using DentalApp.Application.Common.Interfaces;
-using DentalApp.Application.Common.Security;
 using DentalApp.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

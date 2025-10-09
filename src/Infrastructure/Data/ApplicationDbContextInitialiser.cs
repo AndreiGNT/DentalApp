@@ -1,24 +1,9 @@
-﻿
-using DentalApp.Domain.Entities;
-using Microsoft.AspNetCore.Builder;
+﻿using DentalApp.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace DentalApp.Infrastructure.Data;
-
-public static class InitialiserExtensions
-{
-    public static async Task InitialiseDatabaseAsync(this WebApplication app)
-    {
-        using var scope = app.Services.CreateScope();
-
-        var initialiser = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitialiser>();
-
-        await initialiser.InitialiseAsync();
-    }
-}
 
 public class ApplicationDbContextInitialiser
 {

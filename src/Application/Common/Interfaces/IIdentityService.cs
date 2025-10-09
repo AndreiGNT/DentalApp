@@ -1,4 +1,4 @@
-﻿using DentalApp.Application.Common.Models;
+﻿using DentalApp.Application.Common.Helpers;
 
 namespace DentalApp.Application.Common.Interfaces;
 

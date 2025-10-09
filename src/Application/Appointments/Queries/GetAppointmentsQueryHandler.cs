@@ -1,15 +1,7 @@
 ﻿using DentalApp.Application.Common.Interfaces;
 using DentalApp.Application.Common.Models;
 
-namespace DentalApp.Application.Appointments.Queries.GetAppointmentWithPagination;
-
-public record GetAppointmentsQuery : IRequest<List<AppointmentDto>>
-{
-    public string? UserId { get; init; } 
-    public int? PageNumber { get; init; }
-    public int? PageSize { get; init; }
-}
-
+namespace DentalApp.Application.Appointments.Queries;
 public class GetAppointmentsQueryHandler : IRequestHandler<GetAppointmentsQuery, List<AppointmentDto>>
 {
     private readonly IApplicationDbContext _context;

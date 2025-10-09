@@ -1,7 +1,6 @@
 ﻿using DentalApp.Application.Common.Interfaces;
 using DentalApp.Domain.Common;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace DentalApp.Infrastructure.Data.Interceptors;
@@ -35,18 +34,23 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
 
     public void UpdateEntities(DbContext? context)
     {
-        if (context == null) return;
+        if (context == null)
+        {
+            return;
+        }
 
         foreach (var entry in context.ChangeTracker.Entries<BaseAuditableEntity>())
         {
             if (entry.State is EntityState.Added or EntityState.Modified || entry.HasChangedOwnedEntities())
             {
                 var utcNow = _dateTime.GetUtcNow();
+
                 if (entry.State == EntityState.Added)
                 {
                     entry.Entity.CreatedBy = _user.Id;
                     entry.Entity.Created = utcNow;
                 } 
+
                 entry.Entity.LastModifiedBy = _user.Id;
                 entry.Entity.LastModified = utcNow;
             }
@@ -54,11 +58,3 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
     }
 }
 
-public static class Extensions
-{
-    public static bool HasChangedOwnedEntities(this EntityEntry entry) =>
-        entry.References.Any(r => 
-            r.TargetEntry != null && 
-            r.TargetEntry.Metadata.IsOwned() && 
-            (r.TargetEntry.State == EntityState.Added || r.TargetEntry.State == EntityState.Modified));
-}

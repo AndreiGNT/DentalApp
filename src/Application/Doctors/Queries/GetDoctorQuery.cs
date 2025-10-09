@@ -2,5 +2,7 @@
 
 namespace DentalApp.Application.Doctors.Queries;
 
-public record GetDoctorsQuery : IRequest<List<DoctorDto>>;
-
+public record GetDoctorQuery : IRequest<DoctorDto?>
+{
+    public int Id { get; init; }
+}

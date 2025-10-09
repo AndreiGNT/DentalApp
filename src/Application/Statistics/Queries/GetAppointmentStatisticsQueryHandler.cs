@@ -3,11 +3,11 @@ using DentalApp.Application.Common.Models;
 
 namespace DentalApp.Application.Statistics.Queries;
 
-public class GetAppointmentStatisticsHandler : IRequestHandler<GetAppointmentStatisticsQuery, List<AppointmentStatisticsDto>>
+public class GetAppointmentStatisticsQueryHandler : IRequestHandler<GetAppointmentStatisticsQuery, List<AppointmentStatisticsDto>>
 {
     private readonly IApplicationDbContext _context;
 
-    public GetAppointmentStatisticsHandler(IApplicationDbContext context)
+    public GetAppointmentStatisticsQueryHandler(IApplicationDbContext context)
     {
         _context = context;
     }

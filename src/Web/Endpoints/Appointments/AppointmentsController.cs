@@ -1,7 +1,7 @@
 ﻿using DentalApp.Application.Appointments.Commands.CreateAppointment;
 using DentalApp.Application.Appointments.Commands.DeleteAppointment;
 using DentalApp.Application.Appointments.Commands.UpdateAppointment;
-using DentalApp.Application.Appointments.Queries.GetAppointmentWithPagination;
+using DentalApp.Application.Appointments.Queries;
 using DentalApp.Application.Common.Interfaces;
 using DentalApp.Application.Common.Models;
 using DentalApp.Domain.Entities;
@@ -12,7 +12,7 @@ namespace DentalApp.Web.Endpoints.Appointments;
 
 [Route("api/[controller]")]
 [ApiController]
-//[Application.Common.Security.Authorize]
+[Application.Common.Security.Authorize]
 public class AppointmentsController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -36,9 +36,14 @@ public class AppointmentsController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<AppointmentDto>> GetAppointmentById(int id)
     {
-        var query = new GetAppointmentByIdQuery { Id = id };
+        var query = new GetAppointmentQuery { Id = id };
         var result = await _mediator.Send(query);
-        if (result == null) return NotFound();
+
+        if (result == null)
+        {
+            return NotFound();
+        }
+
         return Ok(result);
     }
 
@@ -48,7 +53,10 @@ public class AppointmentsController : ControllerBase
     [FromQuery] GetAppointmentsQuery query)
     {
         var userId = userManager.GetUserId(User);
-        if (string.IsNullOrEmpty(userId)) return Unauthorized();
+        if (string.IsNullOrEmpty(userId))
+        {
+            return Unauthorized();
+        }
 
         query = query with { UserId = userId };
 
@@ -63,8 +71,11 @@ public class AppointmentsController : ControllerBase
     {
         // Preiau durata procedurii din Db
         var procedure = await _context.Procedures.FindAsync(command.ProcedureId);
+
         if (procedure == null)
+        {
             return BadRequest("Selected procedure not found.");
+        }
 
         // creez un nou comand cu EndTime calculat
         var commandWithEndTime = new CreateAppointmentCommand
@@ -77,6 +88,7 @@ public class AppointmentsController : ControllerBase
         };
 
         var id = await _mediator.Send(commandWithEndTime);
+
         return CreatedAtAction(nameof(GetAppointmentById), new { id }, id);
     }
 
@@ -84,8 +96,13 @@ public class AppointmentsController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<ActionResult> Update(int id, [FromBody] UpdateAppointmentCommand command)
     {
-        if (id != command.Id) return BadRequest();
+        if (id != command.Id)
+        {
+            return BadRequest();
+        }
+
         await _mediator.Send(command);
+
         return NoContent();
     }
 
@@ -94,6 +111,7 @@ public class AppointmentsController : ControllerBase
     public async Task<ActionResult> Delete(int id)
     {
         var command = new DeleteAppointmentCommand { Id = id };
+
         await _mediator.Send(command);
         return NoContent();
     }

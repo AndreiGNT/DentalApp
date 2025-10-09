@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace DentalApp.Domain.Entities;
+
 public class Doctor : BaseAuditableEntity
 {
     [Required]

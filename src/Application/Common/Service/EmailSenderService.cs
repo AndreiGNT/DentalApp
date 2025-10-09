@@ -17,13 +17,16 @@ public class EmailSenderService : IEmailSender
     public async Task SendEmailAsync(string email, string subject, string htmlMessage)
     {
         if (string.IsNullOrWhiteSpace(email))
+        {
             throw new ArgumentException("Recipient email is null or empty.", nameof(email));
+        }
 
         var emailMessage = new MimeMessage
         {
             Subject = subject,
             Body = new TextPart("html") { Text = htmlMessage }
         };
+
         emailMessage.From.Add(MailboxAddress.Parse(_config["EmailSettings:From"]));
         emailMessage.To.Add(MailboxAddress.Parse(email));
 
@@ -32,7 +35,9 @@ public class EmailSenderService : IEmailSender
         var password = _config["EmailSettings:Password"];
 
         if (!int.TryParse(_config["EmailSettings:Port"], out int port))
+        {
             throw new InvalidOperationException("EmailSettings:Port is missing or not a valid number.");
+        }
 
         using var smtp = new SmtpClient();
         try

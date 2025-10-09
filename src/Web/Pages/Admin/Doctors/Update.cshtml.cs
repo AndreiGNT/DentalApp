@@ -37,7 +37,9 @@ namespace DentalApp.Web.Pages.Admin.Doctors
                 .FirstOrDefaultAsync(d => d.Id == id);
 
             if (doctor == null)
+            {
                 return NotFound();
+            }
 
             Id = doctor.Id;
             FullName = doctor.FullName;
@@ -50,7 +52,9 @@ namespace DentalApp.Web.Pages.Admin.Doctors
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
+            {
                 return Page();
+            }
 
             try
             {

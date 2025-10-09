@@ -1,4 +1,4 @@
-﻿namespace DentalApp.Application.Common.Models;
+﻿namespace DentalApp.Application.Common.Helpers;
 
 public class Result
 {

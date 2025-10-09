@@ -3,21 +3,16 @@ using DentalApp.Application.Common.Models;
 
 namespace DentalApp.Application.Doctors.Queries;
 
-public record GetDoctorByIdQuery : IRequest<DoctorDto?>
-{
-    public int Id { get; init; }
-}
-
-public class GetDoctorByIdQueryHandler : IRequestHandler<GetDoctorByIdQuery, DoctorDto?>
+public class GetDoctorQueryHandler : IRequestHandler<GetDoctorQuery, DoctorDto?>
 {
     private readonly IApplicationDbContext _context;
 
-    public GetDoctorByIdQueryHandler(IApplicationDbContext context)
+    public GetDoctorQueryHandler(IApplicationDbContext context)
     {
         _context = context;
     }
 
-    public async Task<DoctorDto?> Handle(GetDoctorByIdQuery request, CancellationToken cancellationToken)
+    public async Task<DoctorDto?> Handle(GetDoctorQuery request, CancellationToken cancellationToken)
     {
         var doctor = await _context.Doctors
                 .Include(d => d.DoctorProcedures)
@@ -26,7 +21,9 @@ public class GetDoctorByIdQueryHandler : IRequestHandler<GetDoctorByIdQuery, Doc
                 .FirstOrDefaultAsync(d => d.Id == request.Id, cancellationToken);
 
         if (doctor == null)
+        {
             throw new KeyNotFoundException("Doctor not found.");
+        }
 
         return new DoctorDto
         {

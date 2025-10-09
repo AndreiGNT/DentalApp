@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DentalApp.Application.Common.Interfaces;
-using Microsoft.AspNetCore.Identity;
+﻿using DentalApp.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -46,14 +40,14 @@ public class AppointmentReminderService : BackgroundService
                     var procedure = appt.Procedure.ProcedureName;
                     var time = appt.StartTime.ToString("f");
 
-                    var message = $"Bună {appt.User.FirstName},<br><br>"
-                                + $"Ai o programare la {doctorName} pentru procedura <strong>{procedure}</strong> "
-                                + $"programată pentru <strong>{time}</strong>.<br><br>"
-                                + "Te rugăm să confirmi prezența sau să anunți dacă nu poți ajunge.";
+                    var message = $"Hello {appt.User.FirstName},<br><br>"
+                                + $"You have an appointment with {doctorName} for the procedure <strong>{procedure}</strong> "
+                                + $"scheduled on <strong>{time}</strong>.<br><br>"
+                                + "Please confirm your attendance or let us know if you won’t be able to come.";
 
                     if (!string.IsNullOrWhiteSpace(userEmail))
                     {
-                        await emailSender.SendEmailAsync(userEmail, "Reminder programare", message);
+                        await emailSender.SendEmailAsync(userEmail, "Appointment Reminder", message);
                     }
                 }
             }

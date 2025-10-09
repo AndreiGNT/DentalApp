@@ -1,23 +1,17 @@
 ﻿using DentalApp.Application.Common.Interfaces;
 using DentalApp.Application.Common.Models;
 
-namespace DentalApp.Application.Appointments.Queries.GetAppointmentWithPagination;
-
-public record GetAppointmentByIdQuery : IRequest<AppointmentDto>
-{
-    public int Id { get; init; }
-}
-
-public class GetAppointmentByIdQueryHandler : IRequestHandler<GetAppointmentByIdQuery, AppointmentDto?>
+namespace DentalApp.Application.Appointments.Queries;
+public class GetAppointmentQueryHandler : IRequestHandler<GetAppointmentQuery, AppointmentDto?>
 {
     private readonly IApplicationDbContext _context;
 
-    public GetAppointmentByIdQueryHandler(IApplicationDbContext context)
+    public GetAppointmentQueryHandler(IApplicationDbContext context)
     {
         _context = context;
     }
 
-    public async Task<AppointmentDto?> Handle(GetAppointmentByIdQuery request, CancellationToken cancellationToken)
+    public async Task<AppointmentDto?> Handle(GetAppointmentQuery request, CancellationToken cancellationToken)
     {
         var entity = await _context.Appointments
             .Include(a => a.User)
@@ -25,7 +19,10 @@ public class GetAppointmentByIdQueryHandler : IRequestHandler<GetAppointmentById
             .Include(a => a.Procedure)
             .FirstOrDefaultAsync(a => a.Id == request.Id, cancellationToken);
 
-        if (entity == null) return null;
+        if (entity == null)
+        {
+            return null;
+        }
 
         return new AppointmentDto
         {

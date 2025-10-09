@@ -14,7 +14,6 @@ public class Appointment : BaseAuditableEntity
 
     public Doctor Doctor { get; set; } = default!;
 
-
     [ForeignKey(nameof(Procedure))]
     public int ProcedureId { get; set; }
 

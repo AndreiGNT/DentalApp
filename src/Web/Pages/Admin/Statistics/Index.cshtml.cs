@@ -1,6 +1,5 @@
 using DentalApp.Application.Common.Models;
 using DentalApp.Application.Statistics.Queries;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 

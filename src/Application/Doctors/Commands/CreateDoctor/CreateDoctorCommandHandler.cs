@@ -2,9 +2,6 @@
 using DentalApp.Domain.Entities;
 
 namespace DentalApp.Application.Doctors.Commands.CreateDoctor;
-
-public record CreateDoctorCommand(string FullName, List<int> ProcedureIds) : IRequest<int>;
-
 public class CreateDoctorCommandHandler : IRequestHandler<CreateDoctorCommand, int>
 {
     private readonly IApplicationDbContext _context;

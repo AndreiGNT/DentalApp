@@ -1,13 +1,6 @@
 ﻿using DentalApp.Application.Common.Interfaces;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
 
-namespace DentalApp.Application.Procedures.Commands.DeleteProcedure;
-
-public record DeleteDoctorCommand : IRequest
-{
-    public int Id { get; init; }
-}
+namespace DentalApp.Application.Doctors.Commands.DeleteDoctor;
 
 public class DeleteDoctorCommandHandler : IRequestHandler<DeleteDoctorCommand>
 {
@@ -24,8 +17,10 @@ public class DeleteDoctorCommandHandler : IRequestHandler<DeleteDoctorCommand>
             .FirstOrDefaultAsync(d => d.Id == request.Id, cancellationToken);
 
         if (doctor == null)
-            throw new KeyNotFoundException($"Doctor with ID {request.Id} not found.");
-
+        {
+            throw new KeyNotFoundException("Doctor not found.");
+        }
+            
         _context.DoctorProcedures.RemoveRange(doctor.DoctorProcedures);
 
         _context.Doctors.Remove(doctor);

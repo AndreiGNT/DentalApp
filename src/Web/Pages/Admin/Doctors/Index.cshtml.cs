@@ -1,5 +1,5 @@
 using DentalApp.Application.Common.Interfaces;
-using DentalApp.Application.Procedures.Commands.DeleteProcedure;
+using DentalApp.Application.Doctors.Commands.DeleteDoctor;
 using DentalApp.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

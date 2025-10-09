@@ -1,8 +1,8 @@
-﻿
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace DentalApp.Domain.Entities;
+
 public class Procedure : BaseAuditableEntity
 {
     [Required]

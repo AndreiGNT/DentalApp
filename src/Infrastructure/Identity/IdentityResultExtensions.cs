@@ -1,4 +1,4 @@
-﻿using DentalApp.Application.Common.Models;
+﻿using DentalApp.Application.Common.Helpers;
 using Microsoft.AspNetCore.Identity;
 
 namespace DentalApp.Infrastructure.Identity;

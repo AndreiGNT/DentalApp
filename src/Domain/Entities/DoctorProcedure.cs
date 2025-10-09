@@ -1,7 +1,7 @@
-﻿
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DentalApp.Domain.Entities;
+
 public class DoctorProcedure : BaseAuditableEntity
 {
     [ForeignKey(nameof(Doctor))]

@@ -2,29 +2,25 @@
 using DentalApp.Application.Common.Models;
 
 namespace DentalApp.Application.Procedures.Queries;
-
-public class GetProcedureById : IRequest<ProcedureDto>
-{
-    public int Id { get; set; }
-}
-
-public class GetProcedureByIdHandler : IRequestHandler<GetProcedureById, ProcedureDto>
+public class GetProcedureQueryHandler : IRequestHandler<GetProcedureQuery, ProcedureDto>
 {
     private readonly IApplicationDbContext _context;
 
-    public GetProcedureByIdHandler(IApplicationDbContext context)
+    public GetProcedureQueryHandler(IApplicationDbContext context)
     {
         _context = context;
     }
 
-    public async Task<ProcedureDto> Handle(GetProcedureById request, CancellationToken cancellationToken)
+    public async Task<ProcedureDto> Handle(GetProcedureQuery request, CancellationToken cancellationToken)
     {
         var procedure = await _context.Procedures
             .AsNoTracking()
             .FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
 
         if (procedure == null)
+        {
             throw new KeyNotFoundException("Procedure not found.");
+        }
 
         return new ProcedureDto
         {

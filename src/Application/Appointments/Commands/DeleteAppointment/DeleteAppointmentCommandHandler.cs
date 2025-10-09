@@ -1,12 +1,6 @@
 ﻿using DentalApp.Application.Common.Interfaces;
 
 namespace DentalApp.Application.Appointments.Commands.DeleteAppointment;
-
-public record DeleteAppointmentCommand : IRequest
-{
-    public int Id { get; init; }
-}
-
 public class DeleteAppointmentCommandHandler : IRequestHandler<DeleteAppointmentCommand>
 {
     private readonly IApplicationDbContext _context;
@@ -22,9 +16,12 @@ public class DeleteAppointmentCommandHandler : IRequestHandler<DeleteAppointment
             .FirstOrDefaultAsync(a => a.Id == request.Id, cancellationToken);
 
         if (entity == null)
+        {
             throw new KeyNotFoundException("Appointment not found.");
-
+        }
+            
         _context.Appointments.Remove(entity);
+
         await _context.SaveChangesAsync(cancellationToken);
     }
 }

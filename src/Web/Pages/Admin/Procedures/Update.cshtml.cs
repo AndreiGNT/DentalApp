@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DentalApp.Application.Common.Models;
 using DentalApp.Web.Endpoints.Procedures;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,7 +11,7 @@ namespace DentalApp.Web.Pages.Admin.Procedures
         private readonly IProceduresApiClient _api;
         public UpdateModel(IProceduresApiClient api) { _api = api; }
 
-        [BindProperty] public UpdateProcedureForm Form { get; set; } = new();
+        [BindProperty] public ProcedureDto Form { get; set; } = new();
 
         public List<SelectListItem> DurationOptions { get; private set; } = new();
 
@@ -35,7 +35,8 @@ namespace DentalApp.Web.Pages.Admin.Procedures
             BuildDurationOptions();
 
             var dto = await _api.GetByIdAsync(id);
-            Form = new UpdateProcedureForm
+
+            Form = new ProcedureDto
             {
                 Id = dto.Id,
                 ProcedureName = dto.ProcedureName,
@@ -63,20 +64,5 @@ namespace DentalApp.Web.Pages.Admin.Procedures
             return RedirectToPage("Index");
         }
 
-        public class UpdateProcedureForm
-        {
-            public int Id { get; set; }
-
-            [Required, StringLength(200)]
-            public string ProcedureName { get; set; } = string.Empty;
-
-            [Required]
-            [DataType(DataType.Time)]
-            [DisplayFormat(DataFormatString = @"{0:hh\:mm}", ApplyFormatInEditMode = true)]
-            public TimeSpan Duration { get; set; }
-
-            [Range(0, int.MaxValue)]
-            public int Price { get; set; }
-        }
     }
 }

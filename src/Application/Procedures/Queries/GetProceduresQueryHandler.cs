@@ -2,21 +2,16 @@
 using DentalApp.Application.Common.Models;
 
 namespace DentalApp.Application.Procedures.Queries;
-
-public class GetProcedures : IRequest<List<ProcedureDto>>
-{
-}
-
-public class GetProceduresHandler : IRequestHandler<GetProcedures, List<ProcedureDto>>
+public class GetProceduresQueryHandler : IRequestHandler<GetProceduresQuery, List<ProcedureDto>>
 {
     private readonly IApplicationDbContext _context;
 
-    public GetProceduresHandler(IApplicationDbContext context)
+    public GetProceduresQueryHandler(IApplicationDbContext context)
     {
         _context = context;
     }
 
-    public async Task<List<ProcedureDto>> Handle(GetProcedures request, CancellationToken cancellationToken)
+    public async Task<List<ProcedureDto>> Handle(GetProceduresQuery request, CancellationToken cancellationToken)
     {
         return await _context.Procedures
             .AsNoTracking()

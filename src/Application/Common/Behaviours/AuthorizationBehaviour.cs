@@ -60,6 +60,7 @@ public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRe
 
             // Autorizare bazata pe politici
             var authorizeAttributesWithPolicies = authorizeAttributes.Where(a => !string.IsNullOrWhiteSpace(a.Policy));
+
             if (authorizeAttributesWithPolicies.Any())
             {
                 foreach (var policy in authorizeAttributesWithPolicies.Select(a => a.Policy))

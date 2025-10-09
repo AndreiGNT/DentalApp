@@ -70,32 +70,5 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>, IApplicatio
             new DoctorProcedure { Id = 4, DoctorId = 2, ProcedureId = 4 },
             new DoctorProcedure { Id = 5, DoctorId = 3, ProcedureId = 5 }
         );
-
-        //builder.Entity<Appointment>().HasData(
-        //    new Appointment
-        //    {
-        //        Id = 1,
-        //        UserId = "test-user-1",       
-        //        DoctorId = 1,                 
-        //        ProcedureId = 1,              
-        //        StartTime = new DateTime(2025, 10, 7, 9, 0, 0),
-        //        EndTime = new DateTime(2025, 10, 7, 9, 30, 0),
-        //        Status = "Confirmed",
-        //        Created = DateTime.UtcNow,
-        //        CreatedBy = "system"
-        //    },
-        //    new Appointment
-        //    {
-        //        Id = 2,
-        //        UserId = "test-user-2",
-        //        DoctorId = 2,
-        //        ProcedureId = 3,
-        //        StartTime = new DateTime(2025, 10, 7, 10, 0, 0),
-        //        EndTime = new DateTime(2025, 10, 7, 10, 45, 0),
-        //        Status = "Pending",
-        //        Created = DateTime.UtcNow,
-        //        CreatedBy = "system"
-        //    }
-        //);
     }
 }

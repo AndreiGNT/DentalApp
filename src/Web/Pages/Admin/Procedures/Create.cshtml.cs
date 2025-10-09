@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DentalApp.Application.Common.Models;
 using DentalApp.Web.Endpoints.Procedures;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,9 +10,12 @@ namespace DentalApp.Web.Pages.Admin.Procedures
     public class CreateModel : PageModel
     {
         private readonly IProceduresApiClient _api;
-        public CreateModel(IProceduresApiClient api) { _api = api; }
+        public CreateModel(IProceduresApiClient api) 
+        { 
+            _api = api; 
+        }
 
-        [BindProperty] public CreateProcedureForm Form { get; set; } = new();
+        [BindProperty] public ProcedureDto Form { get; set; } = new();
 
         public List<SelectListItem> DurationOptions { get; private set; } = new();
 
@@ -34,6 +37,7 @@ namespace DentalApp.Web.Pages.Admin.Procedures
         public Task OnGet() 
         {
             BuildDurationOptions();
+
             return Task.CompletedTask;
         }
 
@@ -54,18 +58,6 @@ namespace DentalApp.Web.Pages.Admin.Procedures
             await _api.CreateAsync(req);
             TempData["SuccessMessage"] = "Procedure created successfully.";
             return RedirectToPage("Index");
-        }
-
-        public class CreateProcedureForm
-        {
-            [Required, StringLength(200)]
-            public string ProcedureName { get; set; } = string.Empty;
-
-            [Required]
-            public TimeSpan Duration { get; set; }
-
-            [Range(0, int.MaxValue)]
-            public int Price { get; set; }
         }
     }
 }
